@@ -1,0 +1,36 @@
+@import "../../../styles/variables.css";
+
+.top-navigation {
+  background-color: var(--color-red);
+}
+
+.navbar-brand {
+  display: contents;
+}
+
+.logo-img {
+  width: 40px;
+  height: 40px;
+}
+
+.logo-name {
+  width: 120px;
+  word-break: keep-all;
+white-space: normal;
+}
+
+.logo-name > h4 {
+  margin-bottom: 0;
+  margin-left: var(--icon-margin);
+  color: var(--color-white);
+}
+
+.user-profile {
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  padding-right: 0.5rem;
+  padding-left: 0.5rem;
+  color: var(--color-gold);
+  border: 3px solid var(--color-gold);
+}
