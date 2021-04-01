@@ -1,0 +1,23 @@
+@import "../../../styles/variables.css";
+
+.side-navigation {
+  background-color: var(--color-black);
+}
+
+a, a:active, a:hover {
+  text-decoration: none;
+  color: var(--color-white);
+}
+
+.sidebar-icon {
+  height: auto;
+  width: 40px;
+}
+
+h4 {
+  display: inline-block;
+}
+
+.sidebar-title {
+  font-size: 18px;
+}
