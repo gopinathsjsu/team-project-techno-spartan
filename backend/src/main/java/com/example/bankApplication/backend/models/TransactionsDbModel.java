@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import java.util.Date;
 
 
 @Entity
@@ -21,4 +22,8 @@ public class TransactionsDbModel{
 
     public ParticipantType participantType;
     public long participantId;
+
+    public Date startDate;
+    public long durationInDays;
+    
 }
