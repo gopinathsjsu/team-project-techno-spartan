@@ -11,7 +11,7 @@ import java.io.Serializable;
 @IdClass(UserAccountsIdCpk.class)
 public class UserAccounts implements Serializable {
     @Id
-    private long userId;
+    public long userId;
     @Id
-    private long accountId;
+    public long accountId;
 }
