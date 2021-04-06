@@ -5,7 +5,7 @@ const Bills = props => {
   const [userLogin, setUserLogin] = useState(true);
   return (
     <>
-      <h1>Thank you your transfer has been successful</h1>
+      <h1>Bills</h1>
     </>
   );
 }
