@@ -16,6 +16,7 @@ import { UIPage } from './pages/ui';
 import { ProfilePage } from './pages/profile';
 import { BillsPage } from './pages/bills';
 import { TransfersPage } from './pages/transfers';
+import { PastTransferPage } from './pages/PastTransfer';
 import { TopNavComponent } from './components/layout/top-navigation';
 import { SideNavComponent } from './components/layout/side-navigation';
 import './App.css'
@@ -34,6 +35,9 @@ export default function App() {
                 {/* A <Switch> looks through its children <Route>s and
                   renders the first one that matches the current URL. */}
               <Switch>
+              <Route path="/pasttransfers">
+                  <PastTransferPage/>
+                </Route>
               <Route path="/ui">
                 <UIPage />
               </Route>
