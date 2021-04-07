@@ -3,13 +3,15 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
+  Link,
+  useRouteMatch
 } from "react-router-dom";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
 import { DashboardPage } from './pages/dashboard';
+import { AccountPage } from './pages/account';
 import { UIPage } from './pages/ui';
 import { ProfilePage } from './pages/profile';
 import { BillsPage } from './pages/bills';
@@ -44,9 +46,13 @@ export default function App() {
                 <Route path="/bills">
                   <BillsPage />
                 </Route>
+                <Route path="/account/:id">
+                  <AccountPage />
+                </Route>
                 <Route path="/">
                   <DashboardPage />
                 </Route>
+
               </Switch>
             </Col>
           </Row>

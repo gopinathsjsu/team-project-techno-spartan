@@ -1,0 +1,9 @@
+@import "../../../styles/variables.css";
+.modal-container {
+  text-align: center;
+}
+
+.form-content {
+  width: fit-content;
+  margin: auto;
+}
