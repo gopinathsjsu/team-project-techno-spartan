@@ -1,14 +1,14 @@
 
 h1 {
   font-style: normal;
-  font-size: 48px;
+  font-size: 36px;
   line-height: 58px;
   font-weight: 700;
 }
 
 h2 {
   font-style: normal;
-  font-size: 48px;
+  font-size: 36px;
   font-weight: 600;
   line-height: 58px;
 }
@@ -22,7 +22,6 @@ h3 {
 
 h4 {
   font-style: normal;
-    text-transform: uppercase;
   font-size: 24px;
   font-weight: 600;
   line-height: 29px;
@@ -31,4 +30,141 @@ h4 {
 
 p {
   font-size: 24px;
+}
+
+.btn {
+  border-radius: 0px;
+  outline: none;
+}
+
+.btn-blue {
+  background-color: var(--color-black);
+  color: var(--color-gold);
+  font-weight: 600;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+}
+
+.btn-blue:focus, .btn-red:focus, .btn-gold:focus, .btn-grey:focus {
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+}
+
+.btn-green:focus {
+  box-shadow: none;
+}
+
+.btn-blue:hover {
+  color: var(--color-gold);
+  font-weight: 700;
+}
+
+.btn-red {
+  background-color: var(--color-red);
+  font-weight: 600;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+}
+
+.btn-red:hover {
+  font-weight: 700;
+}
+
+.btn-green {
+  background-color: var(--color-green);
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--color-white)
+}
+
+.btn-grey {
+  background-color: var(--color-grey);
+  font-weight: 600;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+}
+
+.btn-gold {
+  background-color: var(--color-gold);
+  font-weight: 600;
+  color: var(--color-white);
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+}
+
+.customModal > .modal-content {
+  border-radius: 0;
+  border: 3px solid var(--color-gold)
+}
+
+.customModal > .modal-content > .modal-header{
+  border: none;
+  padding: 0 0.25rem;
+}
+
+.customModal > .modal-content > .modal-body{
+  padding-top: 0;
+}
+
+.close {
+  font-size: 2rem;
+  font-weight: 400;
+  padding: 0.25rem;
+}
+
+
+/* custom checkbox */
+
+.customCheckbox {
+  display: initial;
+  position: relative;
+  padding-left: 30px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.customCheckbox input {
+    position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 18px;
+  width: 18px;
+  background-color: #fff;
+  border-radius: 50%;
+  border: 1px solid var(--color-darkgrey)
+}
+
+
+/* When the radio button is checked, add a gold background */
+.customCheckbox input:checked ~ .checkmark {
+  background-color: var(--color-gold);
+  border: 1px solid var(--color-gold)
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.customCheckbox input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.customCheckbox .checkmark:after {
+  top: 4px;
+  left: 4px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-white);
 }

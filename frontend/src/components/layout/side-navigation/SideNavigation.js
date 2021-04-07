@@ -1,7 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import {
-  Link
-} from "react-router-dom";
 import Nav from 'react-bootstrap/Nav'
 import { ReactComponent as AccountIcon } from '../../../assets/accountIcon.svg';
 import { ReactComponent as TransferIcon } from '../../../assets/transferIcon.svg';
