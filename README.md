@@ -18,7 +18,7 @@ Design and implement supporting APIs for a banking system including a Database o
 ### Architecture Diagrams
 TBD
 
-### Weekly Scrum Report and XP Core Values - [Link](https://github.com/gopinathsjsu/team-project-techno-spartan/blob/BillPayment/Documentation/ScrumReports/2021-04-02WeeklyScrumReport.pdf)
+### Weekly Scrum Report and XP Core Values - [Link](https://github.com/gopinathsjsu/team-project-techno-spartan/blob/BillPayment/Documentation/ScrumReports/)
 
 ### UI Wireframes
 
