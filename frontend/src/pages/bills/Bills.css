@@ -1,1 +1,23 @@
 @import "../../styles/theme.css";
+
+h3 {
+    position: absolute;
+    width: 632px;
+    height: 61px;
+    top: 100px;
+}
+
+.recurringCard {
+    background-color: var(--color-grey);
+    color: var(--color-black);
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+    width: 200px;
+    left: 50px;
+    height: 100px;
+  }
+
+  .radioButtonGroup{
+      margin-left: .8rem;
+      margin-top: 5%;
+
+  }
