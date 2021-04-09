@@ -27,7 +27,6 @@ const CreateModal = props => {
       <Modal.Header closeButton>
       </Modal.Header>
       <Modal.Body className="modal-container">
-        {props.show}
         <h4 className="text-center">Create New Account</h4>
         <div className="my-2">Choose Account Type:</div>
         <form onSubmit={createAccount} className="my-3">
