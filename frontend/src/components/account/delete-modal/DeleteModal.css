@@ -1,0 +1,19 @@
+@import "../../../styles/variables.css";
+.modal-container {
+  text-align: center;
+}
+
+.form-content {
+  width: fit-content;
+  margin: auto;
+}
+
+.accountInfo {
+  width: 300px;
+  color: var(--color-darkgrey)
+}
+
+.accountInfo p {
+  text-align: left;
+  margin-bottom: 0
+}

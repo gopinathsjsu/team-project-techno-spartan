@@ -23,7 +23,7 @@ const TransactionsList = props => {
     </Row>
     <Row className="mx-0 my-2"><Col><div className="delim"></div></Col></Row>
     {
-      props.transactions.map((elem, index) => <TransactionSingleComponent {...elem}/>)
+      props.transactions.map((elem, index) => <TransactionSingleComponent key={"transaction" + index} {...elem}/>)
     }
     </div>
   );

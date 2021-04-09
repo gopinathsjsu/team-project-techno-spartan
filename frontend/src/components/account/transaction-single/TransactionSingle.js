@@ -21,7 +21,7 @@ const TransactionSingle = props => {
 
 
   return (
-    <Row key={props.id} className="transaction-single mx-0">
+    <Row key={"transaction" + props.id} className="transaction-single mx-0">
       <Col sm={4}>{props.description}</Col>
       <Col>{props.account}</Col>
       <Col>{(props.isCredit) ? '-' : ''}{formatter.format(props.amount)}</Col>
