@@ -1,1 +1,6 @@
 @import "../../styles/theme.css";
+@import "../bills/Bills.css";
+
+.textarea{
+    width: 150%;
+}
