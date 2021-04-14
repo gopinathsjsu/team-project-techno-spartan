@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import axios from 'axios'
 import {
   Link
 } from "react-router-dom";
@@ -19,9 +20,9 @@ const Dashboard = props => {
 
   useEffect(() => {
     // Check if user logged In and set users initials
-    setUser({name: "Leya", lastName: "Zoya"});
+    setUser({name: "Leya", lastName: "Zoya", id: 1});
     setUserInitials("LZ");
-    setAccounts([{type: "Savings", id: 1356, balance: 3450.00, dateCreated: Date.now()}, {type: "Savings", id: 123456, balance: -50.00, dateCreated: Date.now()}, {type: "Checking", id: 123, balance: 3450.00, dateCreated: Date.now()}])
+    setAccounts([{type: "Savings", id: 1, userId:1, balance: 3450.00, dateCreated: Date.now()}, {type: "Savings", id: 2, userId:1, balance: -50.00, dateCreated: Date.now()}, {type: "Checking", id: 3, userId:1, balance: 3450.00, dateCreated: Date.now()}])
     setTransactions([{description: "Coffee", account: 1356, isCredit: true, amount: 40, date: Date.now(), status: "", id: 23425246},
   {description: "Amazon", account: 123456, isCredit: true, amount: 400, date: Date.now(), status: "", id: 23446},
 {description: "Work", account: 1356, isCredit: false, amount:1540, date: Date.now(), status: "", id: 23428526}])
@@ -29,7 +30,14 @@ const Dashboard = props => {
   }, []);
 
   const createAccount = (option) => {
-    alert(option + "account should be created");
+    console.log(user)
+    axios.post('http://localhost:8080/accounts/create/' + user.id + '/' + option)
+    .then((response) => {
+      console.log(response);
+      alert(option + " account created, account id is " + response.data.id);
+    }, (error) => {
+      console.log(error);
+    });
     setShowCreateModal(false);
     //reload accounts after
   }
