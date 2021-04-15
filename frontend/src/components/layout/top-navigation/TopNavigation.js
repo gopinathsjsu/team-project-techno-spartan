@@ -11,10 +11,12 @@ const TopNavigation = props => {
   const [userInitials, setUserInitials] = useState("");
 
   useEffect(() => {
-    // Check if user logged In and set users initials
-    setUser({name: "Leya", lastName: "Zoya"});
-    setUserInitials("LZ")
-  }, []);
+    if (!props.admin && props.user.attributes) {
+      setUser({name: props.user.attributes.given_name, lastName: props.user.attributes.family_name});
+      if (props.user.attributes.given_name && props.user.attributes.family_name)
+        setUserInitials(props.user.attributes.given_name[0] +  props.user.attributes.family_name[0]);
+    }
+  }, [props.user]);
 
   return (
     <>
@@ -29,7 +31,7 @@ const TopNavigation = props => {
           <h4>Spartan Bank</h4>
         </div>
       </Navbar.Brand>
-      <div className="ml-auto user-profile">{userInitials}</div>
+      {!props.admin && <div className="ml-auto user-profile">{userInitials}</div>}
     </Navbar>
     </>
   );

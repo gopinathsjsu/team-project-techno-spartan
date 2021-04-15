@@ -19,15 +19,21 @@ const Dashboard = props => {
   const [showCreateModal, setShowCreateModal] = useState(false);
 
   useEffect(() => {
-    // Check if user logged In and set users initials
-    setUser({name: "Leya", lastName: "Zoya", id: 1});
-    setUserInitials("LZ");
+    getUserInfo();
     setAccounts([{type: "Savings", id: 1, userId:1, balance: 3450.00, dateCreated: Date.now()}, {type: "Savings", id: 2, userId:1, balance: -50.00, dateCreated: Date.now()}, {type: "Checking", id: 3, userId:1, balance: 3450.00, dateCreated: Date.now()}])
     setTransactions([{description: "Coffee", account: 1356, isCredit: true, amount: 40, date: Date.now(), status: "", id: 23425246},
   {description: "Amazon", account: 123456, isCredit: true, amount: 400, date: Date.now(), status: "", id: 23446},
 {description: "Work", account: 1356, isCredit: false, amount:1540, date: Date.now(), status: "", id: 23428526}])
 
-  }, []);
+}, [props.user]);
+
+  const getUserInfo = () => {
+    if (!props.admin && props.user.attributes) {
+      setUser({name: props.user.attributes.given_name, lastName: props.user.attributes.family_name, id: props.user.attributes.propfile});
+      if (props.user.attributes.given_name && props.user.attributes.family_name)
+        setUserInitials(props.user.attributes.given_name[0] +  props.user.attributes.family_name[0]);
+    }
+  }
 
   const createAccount = (option) => {
     console.log(user)
