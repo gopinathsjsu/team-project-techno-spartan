@@ -3,51 +3,40 @@ package com.example.bankApplication.backend.transfers;
 import com.example.bankApplication.backend.models.Accounts;
 import com.example.bankApplication.backend.models.ParticipantType;
 import com.example.bankApplication.backend.models.TransactionsDbModel;
+import com.example.bankApplication.backend.models.Vendor;
 import com.example.bankApplication.backend.repositories.AccountsRepository;
 import com.example.bankApplication.backend.repositories.TransactionsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.web.client.ResourceAccessException;
 
-@Component("InterAccountTransfer")
+@Component("ExternalTransfer")
 @NoRepositoryBean
-public class InterAccountTransfer {
-
+public class ExternalTransfer {
     @Autowired
     private TransactionsRepository transactionsRepository;
 
     @Autowired
     private AccountsRepository accountRepository;
 
-    public TransactionsDbModel transferBetweenAccount(long account1Id, long account2Id, double incomingAmount, String incomingMemo)
+    public TransactionsDbModel billPayment(long accountId, Vendor vendor, double incomingAmount)
     {
-        //save the transaction
+        //save bill pay transaction
         var transaction = new TransactionsDbModel();
-        transaction.accountId = account1Id;
+        transaction.accountId = accountId;
         transaction.amount = incomingAmount;
+        transaction.vendor = vendor;
         transaction.isCredit = false;
-        transaction.memo = incomingMemo;
+        transaction.participantType = ParticipantType.EXTERNAL;
 
-        transaction.participantType = ParticipantType.ACCOUNT;
-        transaction.participantId = account2Id;
         transactionsRepository.save(transaction);
 
-        //update src account
-        Accounts account1 = accountRepository.findById(account1Id)
-            .orElseThrow(() -> new ResourceAccessException("Id not found"));
-        account1.balance -= incomingAmount;
-        accountRepository.save(account1);
-
-
-        //update dest account
-        Accounts account2 = accountRepository.findById(account2Id)
+        //update account
+        Accounts account = accountRepository.findById(accountId)
                 .orElseThrow(() -> new ResourceAccessException("Id not found"));
-        account2.balance += incomingAmount;
-        accountRepository.save(account2);
+        account.balance -= incomingAmount;
+        accountRepository.save(account);
 
         return transaction;
 

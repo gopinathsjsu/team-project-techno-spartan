@@ -1,8 +1,8 @@
 package com.example.bankApplication.backend.models;
 
-public enum AccountType {
+public enum Vendor {
     NONE,
-    CHECKING,
-    SAVINGS
-
+    PGE,
+    COMCAST,
+    SOLAR
 }

@@ -1,5 +1,5 @@
 import axios from 'axios';
-const Bill_Payment_URL="http://localhost:8080/transfers/betweenAccounts";
+const Bill_Payment_URL="http://localhost:8080/bills/oneTimeBillPay";
 
 class BillPayService{
     createBillPayment(payment)

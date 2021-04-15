@@ -25,5 +25,12 @@ public class TransactionsDbModel{
 
     public Date startDate;
     public long durationInDays;
+
+    //for bill pay
+    public Vendor vendor;
+
+    //for admin transactions
+    public boolean isFees;
+    public boolean isRefunded;
     
 }
