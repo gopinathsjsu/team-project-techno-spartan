@@ -59,7 +59,6 @@ public class PaymentManager {
         schedule.selectedOption = billPaymentModel.selectedOption;
         schedule.date = new Date();
 
-        //System.out.println("Checking");
         //saving schedule info in database
         scheduleRepository.save(schedule);
 
