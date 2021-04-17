@@ -1,8 +1,8 @@
 package com.example.bankApplication.backend.controllers;
 
 import com.example.bankApplication.backend.controllerModels.BillPaymentModel;
-import com.example.bankApplication.backend.models.TransactionsDbModel;
-import com.example.bankApplication.backend.transfers.ExternalTransfer;
+import com.example.bankApplication.backend.payment.BillPayment;
+import com.example.bankApplication.backend.payment.PaymentFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -17,16 +17,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class BillPaymentController {
 
     @Autowired
-    private ExternalTransfer externalTransfer;
+    private PaymentFactory paymentFactory;
 
-    @PostMapping("/oneTimeBillPay")
-    public ResponseEntity<TransactionsDbModel> oneTimeBillPayment(@RequestBody BillPaymentModel billPaymentModel)
-    {
-        var transaction = externalTransfer.billPayment(
-                billPaymentModel.accountId,
-                billPaymentModel.vendor,
-                billPaymentModel.amount);
-        return ResponseEntity.ok(transaction);
+
+    @PostMapping("/billPayment")
+    public ResponseEntity billPayment(@RequestBody BillPaymentModel billPaymentModel){
+       BillPayment billPay =  paymentFactory.getPaymentType(billPaymentModel.recurr);
+
+      var payment = billPay.makePayment(billPaymentModel);
+
+        return ResponseEntity.ok(payment);
     }
+
 
 }

@@ -21,7 +21,9 @@ public class TransactionsDbModel{
     public String memo;
 
     public ParticipantType participantType;
-    public long participantId;
+    public long receiverAccountId;
+
+    public Date date;
 
     public Date startDate;
     public long durationInDays;

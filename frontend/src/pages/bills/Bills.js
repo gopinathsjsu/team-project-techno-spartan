@@ -6,6 +6,7 @@ import { Form } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import './Bills.css';
 import BillPayService from '../../services/BillPayService';
+import { MessageModalComponent } from '../../components/account/message-modal';
 
 function Bills(props){
 
@@ -13,8 +14,10 @@ function Bills(props){
     const [accountId, setAccountId] = useState("");
     const [vendor, setVendor] = useState("");
     const [amount, setAmount] = useState("");
-    const [recurr, setrecurr] = useState("off");
+    const [recurr, setrecurr] = useState("false");
     const [selectedOption, setSelectedOption] = useState("");
+    const [showMessageModal, setShowMessageModal] = useState(false);
+    const [message, setMessage] = useState("Payment Success !!");
     const history = useHistory();
 
 
@@ -34,7 +37,9 @@ function Bills(props){
     }
     
     const onBoxChecked = e =>{
-      setrecurr(e.target.value)
+      const target = e.target;
+      const value = target.type === 'checkbox' ? target.checked : target.value;
+      setrecurr(value)
     }
     
     const onChangeValue = e =>{
@@ -44,10 +49,15 @@ function Bills(props){
     
     const handleClick=(e)=>{
         e.preventDefault();
+        if(recurr=== true){
+          setMessage("Payment Scheduled !!")
+        }
         let payment={accountId, vendor, amount, recurr, selectedOption};
-         console.log('employee'+ JSON.stringify(payment));
-        BillPayService.createBillPayment(payment).then(res=>{
-          history.push('/pasttransfers')
+         //console.log('employee'+ JSON.stringify(payment));
+         BillPayService.createBillPayment(payment).then(res=>{
+         // history.push('/pasttransfers')  
+         //console.log(res.data);
+         setShowMessageModal(true) 
         });
     
     }
@@ -67,8 +77,10 @@ function Bills(props){
             <br></br>
           <Form>
             <Form.Group>
+              <label>
               <strong>
-              <Form.Check label="Make Recurring" type="checkbox" onChange={onBoxChecked}/></strong>
+              <input type="checkbox" onChange={onBoxChecked}/>
+              <span style={{ marginLeft: '.5rem' }}>Make Recurring</span></strong></label>
             </Form.Group>
             <Form.Group className="recurringCard">
             <div className="text-left">
@@ -119,6 +131,7 @@ function Bills(props){
         <Col sm={4} md={{ span: 4, offset: 4 }}>
           <Button variant="blue" className="w-50" onClick={handleClick}>Pay Bill</Button></Col>
         </Row>
+        <MessageModalComponent show={showMessageModal} onHide={() => setShowMessageModal(false)} message={message}></MessageModalComponent>
       </>
     );
 

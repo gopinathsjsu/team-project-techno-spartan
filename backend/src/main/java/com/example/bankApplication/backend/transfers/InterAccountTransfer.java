@@ -6,12 +6,11 @@ import com.example.bankApplication.backend.models.TransactionsDbModel;
 import com.example.bankApplication.backend.repositories.AccountsRepository;
 import com.example.bankApplication.backend.repositories.TransactionsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.web.client.ResourceAccessException;
+
+import java.util.Date;
 
 @Component("InterAccountTransfer")
 @NoRepositoryBean
@@ -33,7 +32,8 @@ public class InterAccountTransfer {
         transaction.memo = incomingMemo;
 
         transaction.participantType = ParticipantType.ACCOUNT;
-        transaction.participantId = account2Id;
+        transaction.receiverAccountId = account2Id;
+        transaction.date = new Date();
         transactionsRepository.save(transaction);
 
         //update src account

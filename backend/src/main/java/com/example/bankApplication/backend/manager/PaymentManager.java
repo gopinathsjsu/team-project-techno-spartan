@@ -1,24 +1,28 @@
-package com.example.bankApplication.backend.transfers;
+package com.example.bankApplication.backend.manager;
 
-import com.example.bankApplication.backend.models.Accounts;
-import com.example.bankApplication.backend.models.ParticipantType;
-import com.example.bankApplication.backend.models.TransactionsDbModel;
-import com.example.bankApplication.backend.models.Vendor;
+import com.example.bankApplication.backend.controllerModels.BillPaymentModel;
+import com.example.bankApplication.backend.models.*;
 import com.example.bankApplication.backend.repositories.AccountsRepository;
+import com.example.bankApplication.backend.repositories.PaymentScheduleRepository;
 import com.example.bankApplication.backend.repositories.TransactionsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.ResourceAccessException;
 
-@Component("ExternalTransfer")
+import java.util.Date;
+
+@Component("PaymentManager")
 @NoRepositoryBean
-public class ExternalTransfer {
+public class PaymentManager {
     @Autowired
     private TransactionsRepository transactionsRepository;
 
     @Autowired
     private AccountsRepository accountRepository;
+
+    @Autowired
+    private PaymentScheduleRepository scheduleRepository;
 
     public TransactionsDbModel billPayment(long accountId, Vendor vendor, double incomingAmount)
     {
@@ -29,6 +33,7 @@ public class ExternalTransfer {
         transaction.vendor = vendor;
         transaction.isCredit = false;
         transaction.participantType = ParticipantType.EXTERNAL;
+        transaction.date = new Date();
 
         transactionsRepository.save(transaction);
 
@@ -40,5 +45,24 @@ public class ExternalTransfer {
 
         return transaction;
 
+    }
+
+    public PaymentSchedule recurringBillPayment (BillPaymentModel billPaymentModel){
+
+        accountRepository.findById(billPaymentModel.accountId)
+                .orElseThrow(() -> new ResourceAccessException("Id not found"));
+
+        var schedule = new PaymentSchedule();
+        schedule.accountId = billPaymentModel.accountId;
+        schedule.amount = billPaymentModel.amount;
+        schedule.vendor = billPaymentModel.vendor;
+        schedule.selectedOption = billPaymentModel.selectedOption;
+        schedule.date = new Date();
+
+        //System.out.println("Checking");
+        //saving schedule info in database
+        scheduleRepository.save(schedule);
+
+        return schedule;
     }
 }
