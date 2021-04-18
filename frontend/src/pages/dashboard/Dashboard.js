@@ -29,7 +29,7 @@ const Dashboard = props => {
 
   const getUserInfo = () => {
     if (!props.admin && props.user.attributes) {
-      setUser({name: props.user.attributes.given_name, lastName: props.user.attributes.family_name, id: props.user.attributes.propfile});
+      setUser({name: props.user.attributes.given_name, lastName: props.user.attributes.family_name, id: props.user.attributes.profile});
       if (props.user.attributes.given_name && props.user.attributes.family_name)
         setUserInitials(props.user.attributes.given_name[0] +  props.user.attributes.family_name[0]);
     }
@@ -68,5 +68,8 @@ const Dashboard = props => {
     </>
   );
 }
+
+
+
 
 export default Dashboard;
