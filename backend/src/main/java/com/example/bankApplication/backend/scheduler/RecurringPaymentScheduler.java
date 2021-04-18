@@ -27,16 +27,15 @@ public class RecurringPaymentScheduler {
     private AccountsRepository accountsRepository;
 
     @Autowired
-   // private ExternalTransfer externalTransfer;
     private PaymentManager paymentManager;
 
     private static Logger LOG = LoggerFactory.getLogger(RecurringPaymentScheduler.class);
 
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-YYYY");
 
-    //@Scheduled(cron = "0 0 0 1 * ?")  //once a month at midnight
+    @Scheduled(cron = "0 0 0 1 * ?")  //once a month at midnight
     //@Scheduled(fixedRate = 86400000)  //once a day
-    @Scheduled(cron = "0 * * * * ?")
+    //@Scheduled(cron = "0 * * * * ?") //every minute
     //@Scheduled(cron = "0 15 20 14 * ?") //14th of every Month at 20:15
     public void runScheduler(){
         //System.out.println("Day is " + dateFormat.format(new Date()));
