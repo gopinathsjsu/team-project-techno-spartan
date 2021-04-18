@@ -22,6 +22,7 @@ public class BillPaymentController {
 
     @PostMapping("/billPayment")
     public ResponseEntity billPayment(@RequestBody BillPaymentModel billPaymentModel){
+
        BillPayment billPay =  paymentFactory.getPaymentType(billPaymentModel.recurr);
 
       var payment = billPay.makePayment(billPaymentModel);
