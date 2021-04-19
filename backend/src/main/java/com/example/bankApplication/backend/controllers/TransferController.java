@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.Locale;
 
@@ -35,7 +34,7 @@ public class TransferController {
     {
         var transaction = interAccountTransfer.transferBetweenAccount(
             transactionBetweenAccountsModel.accountId,
-            transactionBetweenAccountsModel.participantId,
+            transactionBetweenAccountsModel.receiverAccountId,
             transactionBetweenAccountsModel.amount,
             transactionBetweenAccountsModel.memo);
         return ResponseEntity.ok(transaction);

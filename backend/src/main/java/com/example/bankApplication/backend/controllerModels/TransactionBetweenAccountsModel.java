@@ -9,5 +9,5 @@ public class TransactionBetweenAccountsModel {
     public String memo;
 
     public ParticipantType participantType;
-    public long participantId;
+    public long receiverAccountId;
 }

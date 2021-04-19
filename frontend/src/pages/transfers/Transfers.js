@@ -56,7 +56,7 @@ memo=(event)=>{
 
   saveTransfer=(e)=>{
     e.preventDefault();
-    let transfer={accountId: this.state.transferFrom, amount: this.state.amount, participantId: this.state.transferTo, memo: this.state.memo};
+    let transfer={accountId: this.state.transferFrom, amount: this.state.amount, receiverAccountId: this.state.transferTo, memo: this.state.memo};
     // console.log('employee'+ JSON.stringify(transfer));
     TransferServices.createTransferbetweenAccount(transfer).then(res=>{
       this.props.history.push('/pasttransfers')
