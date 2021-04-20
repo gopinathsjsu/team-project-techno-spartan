@@ -44,8 +44,19 @@ public class AccountsController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Accounts> getaccountById(@PathVariable Long id)
+    public ResponseEntity<Accounts> getAccountById(@PathVariable Long id)
     {
+        Accounts account= accountsRepository.findById(id)
+                .orElseThrow(() -> new ResourceAccessException("Id not found"));
+        return ResponseEntity.ok(account);
+
+    }
+
+    @GetMapping("/me/{id}")
+    public ResponseEntity<Accounts> getAllByUser(@PathVariable Long id)
+    {
+        Iterable<UserAccounts> userAccounts = userAccountsRepository.findAllByUserId(id);
+        System.out.println(userAccounts);
         Accounts account= accountsRepository.findById(id)
                 .orElseThrow(() -> new ResourceAccessException("Id not found"));
         return ResponseEntity.ok(account);
