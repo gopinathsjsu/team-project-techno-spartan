@@ -11,6 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.ResourceAccessException;
 
+import java.util.HashSet;
+import java.util.Set;
+
 
 @CrossOrigin
 @RestController
@@ -53,11 +56,16 @@ public class TransactionsController {
     {
         if (userAccountsRepository.existsByUserId(userInfo.userId)) {
             Iterable<UserAccounts> userAccounts = userAccountsRepository.findAllByUserId(userInfo.userId);
-            Set<TransactionsDbModel>
-            for (UserAccounts account : userAccounts)
-                System.out.println(this.getAllByAccountId(account.accountId, userInfo));
+            Set<TransactionsDbModel> transactions = new HashSet<>();
+            for (UserAccounts account : userAccounts) {
+                Iterable<TransactionsDbModel> currentAccountTransactions = this.getAllByAccountId(account.accountId, userInfo);
+                for (TransactionsDbModel transaction: currentAccountTransactions) {
+                    transactions.add(transaction);
+                }
+            }
+            return transactions;
         }
-        return transactionsRepository.findAll();
+        return null;
     }
 
     @GetMapping("/account/{id}")

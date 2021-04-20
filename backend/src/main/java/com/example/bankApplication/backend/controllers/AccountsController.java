@@ -1,7 +1,9 @@
 package com.example.bankApplication.backend.controllers;
 
+import com.example.bankApplication.backend.controllerModels.UserInfoModel;
 import com.example.bankApplication.backend.models.AccountType;
 import com.example.bankApplication.backend.models.Accounts;
+import com.example.bankApplication.backend.models.TransactionsDbModel;
 import com.example.bankApplication.backend.models.UserAccounts;
 import com.example.bankApplication.backend.repositories.AccountsRepository;
 import com.example.bankApplication.backend.repositories.UserAccountsRepository;
@@ -12,7 +14,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.ResourceAccessException;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @CrossOrigin(origins = "*")
@@ -53,14 +57,19 @@ public class AccountsController {
     }
 
     @GetMapping("/me/{id}")
-    public ResponseEntity<Accounts> getAllByUser(@PathVariable Long id)
+    public ResponseEntity<Accounts> getUserAccountById(@PathVariable Long id, @RequestBody UserInfoModel userInfo)
     {
-        Iterable<UserAccounts> userAccounts = userAccountsRepository.findAllByUserId(id);
-        System.out.println(userAccounts);
-        Accounts account= accountsRepository.findById(id)
+        Accounts account= accountsRepository.findByIdAndUserId(id, userInfo.userId)
                 .orElseThrow(() -> new ResourceAccessException("Id not found"));
         return ResponseEntity.ok(account);
 
+    }
+
+    @GetMapping("/me")
+    public Iterable<Accounts> getAllByUser(@RequestBody UserInfoModel userInfo)
+    {
+        Iterable<Accounts> accounts= accountsRepository.findByUserId(userInfo.userId);
+        return accounts;
     }
 
     @PostMapping("/create/{uid}/{type}")
