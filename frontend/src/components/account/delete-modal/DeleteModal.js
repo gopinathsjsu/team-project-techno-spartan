@@ -35,7 +35,7 @@ const DeleteModal = props => {
           <p>Date Created: {dateTimeString}</p>
           <p>Current Balance: {formatter.format(props.account.balance)}</p>
         </div>
-        <div className="my-3">Your balance will be sent in check to your billing address.</div>
+        <div className="my-3">Your balance, if any, will be sent in check to your billing address.</div>
         <Button variant="red" onClick={props.deleteAccount} className="modalBtn mx-2">Close Account</Button>
         <Button variant="grey" onClick={props.onHide} className="modalBtn mx-2">Cancel</Button>
       </Modal.Body>

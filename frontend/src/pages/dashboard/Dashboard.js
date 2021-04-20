@@ -48,6 +48,18 @@ const Dashboard = props => {
     //reload accounts after
   }
 
+  const closeAccount = (option) => {
+    console.log("close " + option)
+    axios.post('http://localhost:8080/accounts/close/' + option)
+    .then((response) => {
+       console.log(response);
+       alert(option + " account closed");
+    }, (error) => {
+       console.log(error);
+    });
+    //reload accounts after
+  }
+
   return (
     <>
       <Row className="my-4 mx-0">
@@ -57,7 +69,7 @@ const Dashboard = props => {
       <Row className="my-4 mx-0">
       {
         accounts?.map(
-        (account) => <Col sm="4" key={account.id}><AccountCardComponent {...account}/></Col>
+        (account) => <Col sm="4" key={account.id}><AccountCardComponent {...account} closeAccount={closeAccount}/></Col>
         )
       }
       </Row>

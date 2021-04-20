@@ -11,6 +11,7 @@ import './AccountCard.css';
 
 const AccountCard = props => {
   const [accountNum, setAccount] = useState(null);
+  const [uid, setUid] = useState(null);
   const [type, setType] = useState("");
   const [balance, setBalance] = useState(0);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -20,6 +21,7 @@ const AccountCard = props => {
 
   useEffect(() => {
     setAccount(props.id);
+    setUid(props.userId);
     setType(props.type);
     setBalance(props.balance)
     console.log(props)
@@ -45,8 +47,8 @@ const AccountCard = props => {
   }
 
   function deleteAccount() {
-    alert("Account will be deleted")
     setShowDeleteModal(false);
+    props.closeAccount(uid + '/' + accountNum);
   }
 
   return (

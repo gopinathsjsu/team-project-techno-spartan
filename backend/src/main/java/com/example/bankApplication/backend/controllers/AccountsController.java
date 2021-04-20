@@ -89,4 +89,29 @@ public class AccountsController {
 
         return ResponseEntity.badRequest().build();
     }
+
+    @PostMapping("/close/{uid}/{aid}")
+    public ResponseEntity<Boolean> closeAccount(@PathVariable long uid, @PathVariable long aid)
+    {
+        log.info("account close req " + uid + " " + aid);
+        if (uid > 0 && aid > 0 && usersRepository.existsById(uid) && accountsRepository.existsById(aid)) {
+
+
+            Accounts account= accountsRepository.findById(aid)
+                .orElseThrow(() -> new ResourceAccessException("Id not found"));
+            log.info(account.toString());
+            if (account.type == AccountType.SAVINGS || account.type == AccountType.CHECKING) {
+                account.setBalance(0.0);
+                account.setType(AccountType.NONE);
+
+                log.info("To Save : " + account);
+                Accounts saved  = accountsRepository.save(account);
+                log.info("Saved : " + saved);
+
+                return ResponseEntity.ok(true);
+            }
+        }
+
+        return ResponseEntity.badRequest().build();
+    }
 }
