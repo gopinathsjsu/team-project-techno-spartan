@@ -1,13 +1,9 @@
 import React, {useEffect, useState} from "react";
 import { AmplifyAuthenticator} from '@aws-amplify/ui-react'
-import { Hub, Logger } from 'aws-amplify';
+import { Hub } from 'aws-amplify';
 import { Auth } from 'aws-amplify';
 import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  useRouteMatch
+  BrowserRouter as Router
 } from "react-router-dom";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row'
@@ -44,6 +40,8 @@ export default function App() {
           case 'signIn':
               getUserInfo();
               break;
+          default:
+              break;
       }
   }
 
@@ -56,17 +54,17 @@ export default function App() {
   return (
     <AmplifyAuthenticator>
     {
-      (userType != uType.guest) &&
+      (userType !== uType.guest) &&
       <Router>
         <div className="page-container">
-          <TopNavComponent admin={userType == uType.admin} user={user}/>
+          <TopNavComponent admin={userType === uType.admin} user={user}/>
           <Container fluid="true" className="d-flex h-100 flex-column">
             <Row className="flex-fill d-flex ">
               <Col sm="auto">
-                <SideNavComponent admin={userType == uType.admin}/>
+                <SideNavComponent admin={userType === uType.admin}/>
               </Col>
               <Col>
-                {userType == uType.admin ? <AdminApp user={user} /> : <CustomerApp user={user} />}
+                {userType === uType.admin ? <AdminApp user={user} /> : <CustomerApp user={user} />}
               </Col>
             </Row>
           </Container>

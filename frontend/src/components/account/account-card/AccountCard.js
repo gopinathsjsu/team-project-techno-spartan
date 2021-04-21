@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import { useHistory } from "react-router-dom";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -10,20 +10,10 @@ import { ReactComponent as CloseIcon } from '../../../assets/closeIcon.svg'
 import './AccountCard.css';
 
 const AccountCard = props => {
-  const [accountNum, setAccount] = useState(null);
-  const [type, setType] = useState("");
-  const [balance, setBalance] = useState(0);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState(false);
 
   let history = useHistory();
-
-  useEffect(() => {
-    setAccount(props.id);
-    setType(props.type);
-    setBalance(props.balance)
-    console.log(props)
-  }, []);
 
   const formatter = new Intl.NumberFormat('en-US', {
   style: 'currency',
@@ -32,10 +22,10 @@ const AccountCard = props => {
   })
 
   function goToDetails() {
-    history.push(`/account/${accountNum}`);
+    history.push(`/account/${props.id}`);
   }
 
-  function closeAccount() {
+  function closeAccount(balance) {
     if (balance >=0) {
       setShowDeleteModal(true);
     }
@@ -44,7 +34,7 @@ const AccountCard = props => {
     }
   }
 
-  function deleteAccount() {
+  function deleteAccount(userId, accountId) {
     alert("Account will be deleted")
     setShowDeleteModal(false);
   }
@@ -52,18 +42,18 @@ const AccountCard = props => {
   return (
     <div className="accountCard pt-3">
       <Row className="mx-0">
-        <Col><h4>{type} Account</h4></Col>
+        <Col><h4>{props.type} Account</h4></Col>
         <Col sm="auto" className="ml-auto"><Button variant="gold" onClick={goToDetails}><DotsIcon /></Button></Col>
       </Row>
       <Row className="mx-0">
-      <Col>Num: {accountNum}</Col>
+      <Col>Num: {props.id}</Col>
       <Col></Col>
       </Row>
       <Row className="mx-0">
-      <Col><h1>{formatter.format(balance)}</h1></Col>
-      <Col sm="auto" className="ml-auto my-auto"><Button variant="red" onClick={closeAccount}><CloseIcon /></Button></Col>
+      <Col><h1>{formatter.format(props.balance)}</h1></Col>
+      <Col sm="auto" className="ml-auto my-auto"><Button variant="red" onClick={() => closeAccount(props.balance)}><CloseIcon /></Button></Col>
       </Row>
-      <DeleteModalComponent show={showDeleteModal} onHide={() => setShowDeleteModal(false)} deleteAccount={deleteAccount} account={props}/>
+      <DeleteModalComponent show={showDeleteModal} onHide={() => setShowDeleteModal(false)} deleteAccount={() => deleteAccount(props.userId, props.id)} account={props}/>
       <ErrorModalComponent show={showErrorModal} onHide={() => setShowErrorModal(false)} account={props}/>
     </div>
   );

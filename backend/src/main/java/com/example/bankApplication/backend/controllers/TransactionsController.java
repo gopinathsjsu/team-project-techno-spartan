@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.image.AreaAveragingScaleFilter;
 import java.util.ArrayList;
 
 
@@ -66,10 +67,15 @@ public class TransactionsController {
     }
 
     @PostMapping("/account/{id}")
-    public ResponseEntity<Iterable<TransactionsDbModel>> getAllByAccountId(@PathVariable Long id, @RequestBody UserInfoModel userInfo)
+    public ResponseEntity<Iterable<TransactionModel>> getAllByAccountId(@PathVariable Long id, @RequestBody UserInfoModel userInfo)
     {
         if (userAccountsRepository.existsByAccountIdAndUserId(id, userInfo.userId)) {
-            return ResponseEntity.ok(transactionsRepository.findByAccountIdOrReceiverAccountId(id, id));
+            Iterable<TransactionsDbModel> transactionsFromDb = transactionsRepository.findByAccountIdOrReceiverAccountId(id, id);
+            ArrayList<TransactionModel> transactions = new ArrayList<>();
+            for (TransactionsDbModel transaction: transactionsFromDb) {
+                transactions.add(new TransactionModel(transaction, id, userInfo.userId));
+            }
+            return ResponseEntity.ok(transactions);
         }
         throw new IdNotFound(id, "Account was not found ");
     }
