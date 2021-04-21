@@ -8,7 +8,6 @@ const TransactionSingle = props => {
   const [dateString, setDateString] = useState("")
 
   useEffect(() => {
-    console.log(props)
     var d = new Date(props.date)
     setDateString(d.toDateString())
   }, []);
@@ -22,10 +21,11 @@ const TransactionSingle = props => {
 
   return (
     <Row key={"transaction" + props.id} className="transaction-single mx-0">
-      <Col sm={4}>{props.description}</Col>
+      <Col sm={1}>{props.id}</Col>
       <Col>{props.account}</Col>
-      <Col>{(props.isCredit) ? '-' : ''}{formatter.format(props.amount)}</Col>
-      <Col>{dateString}</Col>
+      <Col className="d-flex justify-content-end">{(props.isCredit) ? '-' : ''}{formatter.format(props.amount)}</Col>
+      <Col sm={3}>{dateString}</Col>
+      <Col sm={3}>{props.memo}</Col>
       <Col></Col>
       </Row>
   );

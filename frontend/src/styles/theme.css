@@ -85,6 +85,13 @@ h4 {
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
 }
 
+.smlBtn {
+  color: var(--color-red);
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 .customModal > .modal-content {
   border-radius: 0;
   border: 3px solid var(--color-gold)

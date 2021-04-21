@@ -4,5 +4,5 @@ import com.example.bankApplication.backend.models.TransactionsDbModel;
 import org.springframework.data.repository.CrudRepository;
 
 public interface TransactionsRepository extends CrudRepository<TransactionsDbModel, Long> {
-
+    Iterable<TransactionsDbModel> findByAccountIdOrReceiverAccountId(Long id, Long id1);
 }

@@ -1,10 +1,7 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import {
-  BrowserRouter as Router,
   Switch,
-  Route,
-  Link,
-  useRouteMatch
+  Route
 } from "react-router-dom";
 
 import { AccountPage } from '../pages/account';

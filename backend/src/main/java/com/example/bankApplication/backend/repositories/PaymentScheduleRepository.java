@@ -4,4 +4,5 @@ import com.example.bankApplication.backend.models.PaymentSchedule;
 import org.springframework.data.repository.CrudRepository;
 
 public interface PaymentScheduleRepository extends CrudRepository<PaymentSchedule, Long> {
+    Iterable<PaymentSchedule> findByAccountId(Long id);
 }
