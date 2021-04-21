@@ -1,18 +1,17 @@
 package com.example.bankApplication.backend.controllers;
 
+import com.example.bankApplication.backend.controllerModels.TransactionModel;
 import com.example.bankApplication.backend.controllerModels.UserInfoModel;
+import com.example.bankApplication.backend.exceptions.IdNotFound;
 import com.example.bankApplication.backend.models.TransactionsDbModel;
 import com.example.bankApplication.backend.models.UserAccounts;
-import com.example.bankApplication.backend.repositories.AccountsRepository;
 import com.example.bankApplication.backend.repositories.TransactionsRepository;
 import com.example.bankApplication.backend.repositories.UserAccountsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.ResourceAccessException;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
 
 
 @CrossOrigin
@@ -25,8 +24,6 @@ public class TransactionsController {
     @Autowired
     private TransactionsRepository transactionsRepository;
 
-    @Autowired
-    private AccountsRepository accountsRepository;
 
     // get all transactions
     @GetMapping("")
@@ -46,35 +43,35 @@ public class TransactionsController {
     public ResponseEntity<TransactionsDbModel> getTransactionById(@PathVariable Long id)
     {
         TransactionsDbModel transaction= transactionsRepository.findById(id)
-                .orElseThrow(() -> new ResourceAccessException("Id not found"));
+                .orElseThrow(() -> new IdNotFound(id, "Transaction Not Found "));
         return ResponseEntity.ok(transaction);
 
     }
 
-    @GetMapping("/me")
-    public Iterable<TransactionsDbModel> getAllByUser(@RequestBody UserInfoModel userInfo)
+    @PostMapping("/me")
+    public ResponseEntity<Iterable<TransactionModel>> getAllByUser(@RequestBody UserInfoModel userInfo)
     {
         if (userAccountsRepository.existsByUserId(userInfo.userId)) {
             Iterable<UserAccounts> userAccounts = userAccountsRepository.findAllByUserId(userInfo.userId);
-            Set<TransactionsDbModel> transactions = new HashSet<>();
+            ArrayList<TransactionModel> transactions = new ArrayList<>();
             for (UserAccounts account : userAccounts) {
-                Iterable<TransactionsDbModel> currentAccountTransactions = this.getAllByAccountId(account.accountId, userInfo);
-                for (TransactionsDbModel transaction: currentAccountTransactions) {
-                    transactions.add(transaction);
+                Iterable<TransactionsDbModel> currentAccountTransactions = transactionsRepository.findByAccountIdOrReceiverAccountId(account.accountId, account.accountId);
+                for (TransactionsDbModel transaction : currentAccountTransactions) {
+                    transactions.add(new TransactionModel(transaction, account.accountId, userInfo.userId));
                 }
             }
-            return transactions;
+            return ResponseEntity.ok(transactions);
         }
-        return null;
+        throw new IdNotFound(userInfo.userId, "User was not found ");
     }
 
-    @GetMapping("/account/{id}")
-    public Iterable<TransactionsDbModel> getAllByAccountId(@PathVariable Long id, @RequestBody UserInfoModel userInfo)
+    @PostMapping("/account/{id}")
+    public ResponseEntity<Iterable<TransactionsDbModel>> getAllByAccountId(@PathVariable Long id, @RequestBody UserInfoModel userInfo)
     {
         if (userAccountsRepository.existsByAccountIdAndUserId(id, userInfo.userId)) {
-            return transactionsRepository.findByAccountIdOrReceiverAccountId(id, id);
+            return ResponseEntity.ok(transactionsRepository.findByAccountIdOrReceiverAccountId(id, id));
         }
-        return null;
+        throw new IdNotFound(id, "Account was not found ");
     }
 
 }
