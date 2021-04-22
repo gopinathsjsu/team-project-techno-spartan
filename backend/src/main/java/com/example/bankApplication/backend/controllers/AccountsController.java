@@ -1,7 +1,10 @@
 package com.example.bankApplication.backend.controllers;
 
+import com.example.bankApplication.backend.controllerModels.UserInfoModel;
+import com.example.bankApplication.backend.exceptions.IdNotFound;
 import com.example.bankApplication.backend.models.AccountType;
 import com.example.bankApplication.backend.models.Accounts;
+import com.example.bankApplication.backend.models.TransactionsDbModel;
 import com.example.bankApplication.backend.models.UserAccounts;
 import com.example.bankApplication.backend.repositories.AccountsRepository;
 import com.example.bankApplication.backend.repositories.UserAccountsRepository;
@@ -12,7 +15,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.ResourceAccessException;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 @Slf4j
 @CrossOrigin(origins = "*")
@@ -44,25 +53,47 @@ public class AccountsController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Accounts> getaccountById(@PathVariable Long id)
+    public ResponseEntity<Accounts> getAccountById(@PathVariable Long id)
     {
         Accounts account= accountsRepository.findById(id)
-                .orElseThrow(() -> new ResourceAccessException("Id not found"));
+                .orElseThrow(() -> new IdNotFound(id, "Account Id Not Found "));
         return ResponseEntity.ok(account);
 
     }
 
-    @PostMapping("/create/{uid}/{type}")
-    public ResponseEntity<Accounts> createAccount(@PathVariable long uid, @PathVariable String type)
+    @PostMapping("/me/close/{id}")
+    public ResponseEntity<Boolean> closeAccount(@PathVariable Long id, @RequestBody UserInfoModel userInfo) {
+        return ResponseEntity.ok(true);
+    }
+
+    @PostMapping("/me/{id}")
+    public ResponseEntity<Accounts> getUserAccountById(@PathVariable Long id, @RequestBody UserInfoModel userInfo)
+    {
+        Accounts account= accountsRepository.findByIdAndUserId(id, userInfo.userId)
+                .orElseThrow(() -> new IdNotFound(id, "Account Id Not Found "));
+        return ResponseEntity.ok(account);
+
+    }
+
+    @PostMapping("/me")
+    public ResponseEntity<Iterable<Accounts>> getAllByUser(@RequestBody UserInfoModel userInfo)
+    {
+        Stream<Accounts> accounts= StreamSupport.stream(accountsRepository.findByUserId(userInfo.userId).spliterator(), false)
+                .filter(elem -> elem.type != AccountType.NONE);
+        return ResponseEntity.ok(accounts.collect(Collectors.toList()));
+    }
+
+    @PostMapping("/me/create/{type}")
+    public ResponseEntity<Accounts> createAccount(@RequestBody UserInfoModel userInfo, @PathVariable String type)
     {
         AccountType accountType = AccountType.valueOf(type.toUpperCase());
 
-        if (uid > 0 && accountType != AccountType.NONE && usersRepository.existsById(uid)) {
+        if (userInfo.userId > 0 && accountType != AccountType.NONE && usersRepository.existsById(userInfo.userId)) {
 
             Accounts accountToSave = Accounts.builder()
                 .balance(0.0)
                 .monthlyFee(0.0)
-                .userId(uid)
+                .userId(userInfo.userId)
                 .type(accountType)
                 .build();
 

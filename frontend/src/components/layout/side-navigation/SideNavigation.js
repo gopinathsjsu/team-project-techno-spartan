@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import { Auth } from 'aws-amplify';
 import Nav from 'react-bootstrap/Nav'
 import { ReactComponent as AccountIcon } from '../../../assets/accountIcon.svg';
@@ -9,10 +9,6 @@ import { ReactComponent as SignOutIcon } from '../../../assets/signOutIcon.svg'
 import './SideNavigation.css';
 
 const SideNavigation = props => {
-
-  useEffect(() => {
-  }, []);
-
 
   async function signOut() {
     try {

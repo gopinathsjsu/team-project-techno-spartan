@@ -1,22 +1,17 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import './CreateModal.css';
 
 const CreateModal = props => {
   const [option, setOption] = useState("");
-
-  useEffect(() => {
-  }, []);
 
   function handleChange(event) {
     setOption(event.target.value)
   }
 
   function createAccount(event) {
-    if (option != "") {
+    if (option !== "") {
       props.createAccount(option);
       setOption("")
     }
@@ -52,7 +47,7 @@ const CreateModal = props => {
                   checked={option === "checking"}
                   onChange={handleChange}
                 />
-                <span class="checkmark"></span>
+                <span className="checkmark"></span>
             </label>
           </div>
           </div>

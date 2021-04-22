@@ -7,4 +7,9 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface UserAccountsRepository extends CrudRepository<UserAccounts, UserAccountsIdCpk> {
 
+   Iterable<UserAccounts> findAllByUserId(long id);
+
+   boolean existsByAccountIdAndUserId(Long id, long userId);
+
+   boolean existsByUserId(long userId);
 }

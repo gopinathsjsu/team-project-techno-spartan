@@ -17,6 +17,7 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.util.Optional;
 
+
 @Component
 public class RecurringPaymentScheduler {
 
@@ -27,7 +28,6 @@ public class RecurringPaymentScheduler {
     private AccountsRepository accountsRepository;
 
     @Autowired
-   // private ExternalTransfer externalTransfer;
     private PaymentManager paymentManager;
 
     private int dayOfMonth = 1;
@@ -39,6 +39,7 @@ public class RecurringPaymentScheduler {
     @Scheduled(cron = "0 0 0 1 * ?")  //once a month at midnight
     //@Scheduled(fixedRate = 86400000)  //once a day
     //@Scheduled(cron = "0 * * * * ?") // every minute
+    //@Scheduled(cron = "0 * * * * ?") //every minute
     //@Scheduled(cron = "0 15 20 14 * ?") //14th of every Month at 20:15
     public void runScheduler(){
         //System.out.println("Day is " + dateFormat.format(new Date()));

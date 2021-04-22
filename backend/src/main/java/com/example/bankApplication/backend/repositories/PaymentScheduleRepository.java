@@ -13,4 +13,5 @@ public interface PaymentScheduleRepository extends CrudRepository<PaymentSchedul
     //for JUnit tests
     @Query("SELECT t FROM PaymentSchedule t where t.accountId = :accId")
     List<PaymentSchedule> findScheduleByAccountId(@Param("accId") long accId);
+    Iterable<PaymentSchedule> findByAccountId(Long id);
 }

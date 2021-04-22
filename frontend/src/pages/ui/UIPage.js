@@ -1,9 +1,8 @@
-import React, {useState} from 'react';
+import React from 'react';
 import Button from 'react-bootstrap/Button';
 import './UIPage.css';
 
 const UIPage = props => {
-  const [userLogin, setUserLogin] = useState(true);
   return (
     <>
       <div>h1 (font-size 48px, font-weight 600): <h1 className="d-inline-block">Hello World!</h1></div>
