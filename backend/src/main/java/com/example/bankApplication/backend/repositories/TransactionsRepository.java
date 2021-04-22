@@ -13,5 +13,6 @@ public interface TransactionsRepository extends CrudRepository<TransactionsDbMod
     //for JUnit test
     @Query("SELECT t FROM TransactionsDbModel t where t.accountId = :accId")
     List<TransactionsDbModel> findAccountById(@Param("accId") long accId);
+
     Iterable<TransactionsDbModel> findByAccountIdOrReceiverAccountId(Long id, Long id1);
 }

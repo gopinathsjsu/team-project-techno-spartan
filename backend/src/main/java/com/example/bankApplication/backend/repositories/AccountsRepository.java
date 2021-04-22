@@ -12,9 +12,6 @@ import java.util.Optional;
 
 public interface AccountsRepository extends CrudRepository<Accounts, Long> {
 
-    //for JUnit test
-    @Query("SELECT t FROM Accounts t where t.userId = :userId")
-    List<Accounts> findAccountsByUserId(@Param("userId") long userId);
 
      Iterable<Accounts> findByUserId(long userId);
 

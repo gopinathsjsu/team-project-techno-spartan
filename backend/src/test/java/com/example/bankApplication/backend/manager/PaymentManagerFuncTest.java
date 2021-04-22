@@ -8,6 +8,7 @@ import com.example.bankApplication.backend.repositories.AccountsRepository;
 import com.example.bankApplication.backend.repositories.PaymentScheduleRepository;
 import com.example.bankApplication.backend.repositories.TransactionsRepository;
 
+import org.assertj.core.util.Lists;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -45,29 +46,32 @@ public class PaymentManagerFuncTest {
 
         accountsRepository.save(account);
 
-        List<Accounts> accounts = accountsRepository.findAccountsByUserId(5555);
-        assertThat(accounts, hasSize(1));
+        Iterable<Accounts> accounts = accountsRepository.findByUserId(5555);
+        List<Accounts> accountsList = Lists.newArrayList(accounts);
 
-        List<TransactionsDbModel> transactions = transactionsRepository.findAccountById(accounts.get(0).id);
+        assertThat(accountsList, hasSize(1));
+
+
+        List<TransactionsDbModel> transactions = transactionsRepository.findAccountById(accountsList.get(0).id);
         //check no transactions present
         assertThat(transactions, hasSize(0));
 
         //insert transaction
         TransactionsDbModel transactionNew = new TransactionsDbModel();
-        transactionNew.accountId = accounts.get(0).id;
+        transactionNew.accountId = accountsList.get(0).id;
         transactionNew.vendor = Vendor.COMCAST;
         transactionNew.amount = 50;
         transactionNew.date = new Date();
 
         transactionsRepository.save(transactionNew);
 
-        transactions = transactionsRepository.findAccountById(accounts.get(0).id);
+        transactions = transactionsRepository.findAccountById(accountsList.get(0).id);
 
         //check 1 transaction present
         assertThat(transactions, hasSize(1));
 
         //check transaction values
-        assertThat(transactions.get(0).accountId, is(accounts.get(0).id));
+        assertThat(transactions.get(0).accountId, is(accountsList.get(0).id));
         assertThat(transactions.get(0).vendor, is(Vendor.COMCAST));
 
         //cleanup
@@ -85,29 +89,33 @@ public class PaymentManagerFuncTest {
 
         accountsRepository.save(account);
 
-        List<Accounts> accounts = accountsRepository.findAccountsByUserId(5555);
+        Iterable<Accounts> accounts = accountsRepository.findByUserId(5555);
+        List<Accounts> accountsList = Lists.newArrayList(accounts);
         //check account exists
-        assertThat(accounts, hasSize(1));
+        assertThat(accountsList, hasSize(1));
 
-        List<PaymentSchedule> schedules = paymentScheduleRepository.findScheduleByAccountId(accounts.get(0).id);
+        Iterable<PaymentSchedule> schedules = paymentScheduleRepository.findByAccountId(accountsList.get(0).id);
+       List<PaymentSchedule> schedulesList = Lists.newArrayList(schedules);
 
         //check no schedule present
-        assertThat(schedules, hasSize(0));
+        assertThat(schedulesList, hasSize(0));
 
         PaymentSchedule paymentSchedule =  new PaymentSchedule();
-        paymentSchedule.accountId = accounts.get(0).id ;
+        paymentSchedule.accountId = accountsList.get(0).id ;
         paymentSchedule.vendor = Vendor.SOLAR;
         paymentSchedule.amount = 30 ;
+        paymentSchedule.selectedOption = "Monthly";
         paymentSchedule.date = new Date();
 
         paymentScheduleRepository.save(paymentSchedule);
-        schedules = paymentScheduleRepository.findScheduleByAccountId(accounts.get(0).id);
+        schedules = paymentScheduleRepository.findByAccountId(accountsList.get(0).id);
+        schedulesList = Lists.newArrayList(schedules);
 
-        assertThat(schedules, hasSize(1));
+        assertThat(schedulesList, hasSize(1));
 
         //check schedule values
-        assertThat(schedules.get(0).accountId, is(accounts.get(0).id));
-        assertThat(schedules.get(0).vendor, is(Vendor.SOLAR));
+        assertThat(schedulesList.get(0).accountId, is(accountsList.get(0).id));
+        assertThat(schedulesList.get(0).vendor, is(Vendor.SOLAR));
 
         //cleanup
         accountsRepository.deleteAll(accounts);
