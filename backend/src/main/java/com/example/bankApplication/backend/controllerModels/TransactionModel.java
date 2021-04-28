@@ -19,11 +19,13 @@ public class TransactionModel {
     public long durationInDays;
     public Vendor vendor;
     public boolean isRefunded;
+    public boolean isFee;
+
     public TransactionModel(TransactionsDbModel transaction, Long accountId, Long userId) {
         id = transaction.id;
         account = (transaction.accountId == accountId) ? accountId: transaction.receiverAccountId;
         this.userId = userId;
-        isCredit = (transaction.accountId != accountId);
+        isCredit = (transaction.accountId == accountId);
         amount = transaction.amount;
         memo = transaction.memo;
         date = transaction.date;
@@ -31,5 +33,6 @@ public class TransactionModel {
         durationInDays = transaction.durationInDays;
         vendor = transaction.vendor;
         isRefunded = transaction.isRefunded;
+        isFee = transaction.isFees;
     }
 }

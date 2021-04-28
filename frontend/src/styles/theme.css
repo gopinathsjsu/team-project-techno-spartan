@@ -35,6 +35,15 @@ h4 {
   outline: none;
 }
 
+.btn.dropdown {
+  background-color: none;
+  padding: 0
+}
+
+.btn-dropdown.dropdown-toggle::after {
+  border: none;
+}
+
 .btn-blue {
   background-color: var(--color-black);
   color: var(--color-gold);
@@ -46,7 +55,7 @@ h4 {
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
 }
 
-.btn-green:focus {
+.btn-green:focus, .btn.dropdown:focus {
   box-shadow: none;
 }
 
