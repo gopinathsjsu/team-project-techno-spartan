@@ -10,6 +10,13 @@ class TransactionService{
     return axios.post(Base_URL + '/account/' + accountId, {userId})
   }
 
+  getAccountTransactionsByType(userId, accountId, type) {
+    return axios.post(Base_URL + '/account/' + accountId + '?type=' + type, {userId})
+  }
+
+  getUserTransactionsByType(userId, type) {
+    return axios.post(Base_URL + '/me?type=' + type, {userId})
+  }
 }
 
 export default new TransactionService()

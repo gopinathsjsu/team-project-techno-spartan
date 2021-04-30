@@ -5,7 +5,15 @@
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
 }
 
+.filter-icon {
+  height: 20px;
+  width: auto;
+  stroke: var(--color-black)
+}
 
+.filter-icon.active {
+  stroke: var(--color-gold) !important;
+}
 .delim {
   height: 1px;
   width: 100%;

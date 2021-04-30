@@ -8,6 +8,7 @@ import { CreateModalComponent } from '../../components/account/create-modal';
 import { TransactionsListComponent } from '../../components/account/transactions-list';
 import AccountService from '../../services/AccountService';
 import TransactionService from '../../services/TransactionService';
+import {TransactionType } from '../../models/transactionTypes';
 
 const initialState = {user: null, accounts: [], transactions: []}
 
@@ -30,6 +31,7 @@ const Dashboard = ({admin, user}) => {
   const [showCreateModal, setShowCreateModal] = useState(false);
 
   useEffect(() => {
+    console.log(TransactionType)
     if (!admin && user.attributes) {
       let userName = user.attributes.given_name;
       let userLastName = user.attributes.family_name;
@@ -47,6 +49,17 @@ const Dashboard = ({admin, user}) => {
     TransactionService.getUserTransactions(userId).then(response => {
       dispatch({type: 'setTransactions', payload: response.data})
     })
+  }
+
+  const getTransactionsByType = (type) => {
+    let userId = userData.user?.id;
+    if (type == TransactionType.NONE)
+      getTransactions(userId)
+    else {
+      TransactionService.getUserTransactionsByType(userId, type).then(response => {
+        dispatch({type: 'setTransactions', payload: response.data})
+      })
+    }
   }
 
   const getUserAccounts = (userId) => {
@@ -76,7 +89,12 @@ const Dashboard = ({admin, user}) => {
       }
       </Row>
       <Row className="my-4 mx-0">
-        <Col><TransactionsListComponent transactions={userData.transactions}/></Col>
+        <Col>
+          <TransactionsListComponent
+            transactions={userData.transactions}
+            getTransactions={getTransactionsByType}/
+            >
+        </Col>
       </Row>
       <CreateModalComponent show={showCreateModal} onHide={() => setShowCreateModal(false)} createAccount={createAccount}/>
     </>

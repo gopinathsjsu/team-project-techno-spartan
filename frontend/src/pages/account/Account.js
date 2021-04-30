@@ -11,6 +11,7 @@ import TransactionService from '../../services/TransactionService';
 import PaymentsService from '../../services/PaymentsService';
 import { TransactionsListComponent } from '../../components/account/transactions-list';
 import { RecurringSingleComponent } from '../../components/account/recurring-single';
+import {TransactionType } from '../../models/transactionTypes';
 
 const initialState = {accountInfo: null, transactions: [], recurringTransactions: []}
 
@@ -64,6 +65,17 @@ const Account = ({user}) => {
     });
   }
 
+  const getTransactionsByType = (accountId, type) => {
+    let userId = user.username;
+    if (type == TransactionType.NONE)
+      getTransactions(userId, accountId)
+    else {
+      TransactionService.getAccountTransactionsByType(userId, accountId, type).then(response => {
+        dispatch({type: 'setTransactions', payload: response.data})
+      })
+    }
+  }
+
   function deleteAccount(userId, accountId) {
 
     alert("Need to check balance. Account will be deleted")
@@ -97,7 +109,12 @@ const Account = ({user}) => {
       </Col>
     </Row>
       <Row className="my-4 mx-0">
-        <Col><TransactionsListComponent transactions={accountData.transactions}/></Col>
+        <Col>
+          <TransactionsListComponent
+          transactions={accountData.transactions}
+          getTransactions={getTransactionsByType}
+          account={accountData.accountInfo?.id}/>
+        </Col>
       </Row>
       <Row className="my-4 mx-0">
         <Button variant="red" className="modalBtn ml-auto mr-3" onClick={() => deleteAccount(accountData.accountInfo.userId, accountData.accountInfo.id)}>Close Account</Button>
