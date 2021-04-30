@@ -29,7 +29,7 @@ const FeeTransactions = props => {
   return (
     !props.isRefunded && <Row key={"feetransaction"} className="transaction-fee mx-0">
       <Col sm={1}>{props.id}</Col>
-      <Col sm={1}>{props.account}</Col>
+      <Col sm={1}>{props.accountId}</Col>
       <Col className="d-flex justify-content-end">{formatter.format(props.amount)}</Col>
       <Col sm={3}>{dateString}</Col>
      <Col sm={3}><div className="mb-2"><Button variant="outline-danger" onClick={callRefund}>Refund</Button></div></Col>

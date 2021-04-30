@@ -80,4 +80,11 @@ public class TransactionsController {
         throw new IdNotFound(id, "Account was not found ");
     }
 
+    @PostMapping("/admin")
+    public ResponseEntity<Iterable<TransactionsDbModel>> getFeesTransactions(){
+
+        Iterable<TransactionsDbModel> currentAccountTransactions = transactionsRepository.findByIsFeesAndIsRefunded(true, false);
+        return ResponseEntity.ok(currentAccountTransactions);
+    }
+
 }
