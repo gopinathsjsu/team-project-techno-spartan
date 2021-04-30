@@ -10,6 +10,13 @@ class TransactionService{
     return axios.post(Base_URL + '/account/' + accountId, {userId})
   }
 
+  getFeesTransactions(){
+    return axios.post(Base_URL + '/admin')
+  }
+  
+  getRefund(id) {
+    return axios.post(Base_URL + '/admin/refund', {id})
+  }
   getAccountTransactionsByType(userId, accountId, type) {
     return axios.post(Base_URL + '/account/' + accountId + '?type=' + type, {userId})
   }

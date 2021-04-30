@@ -6,6 +6,7 @@ import {
 
 import { AccountPage } from '../pages/account';
 import { PastTransferPage } from '../pages/PastTransfer';
+import { AdminPage } from '../pages/admin';
 import '../App.css'
 
 export default function AdminApp(props) {
@@ -17,7 +18,7 @@ export default function AdminApp(props) {
             <PastTransferPage/>
           </Route>
           <Route path="/">
-            <AccountPage />
+            <AdminPage />
           </Route>
       </Switch>
   );

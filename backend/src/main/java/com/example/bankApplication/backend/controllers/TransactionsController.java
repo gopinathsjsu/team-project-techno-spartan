@@ -95,4 +95,11 @@ public class TransactionsController {
     }
 
 
+    @PostMapping("/admin")
+    public ResponseEntity<Iterable<TransactionsDbModel>> getFeesTransactions(){
+
+        Iterable<TransactionsDbModel> currentAccountTransactions = transactionsRepository.findByIsFeesAndIsRefunded(true, false);
+        return ResponseEntity.ok(currentAccountTransactions);
+    }
+
 }
