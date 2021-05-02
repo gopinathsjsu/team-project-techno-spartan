@@ -1,5 +1,6 @@
 import axios from 'axios';
-const Base_URL="http://localhost:8080/transactions"
+const Base_URL=`http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}/transactions`
+// const Base_URL=`http://localhost:8080/transactions`
 
 class TransactionService{
   getUserTransactions(userId) {

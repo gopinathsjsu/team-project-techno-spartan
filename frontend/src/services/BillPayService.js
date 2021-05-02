@@ -1,5 +1,6 @@
 import axios from 'axios';
-const Bill_Payment_URL="http://localhost:8080/bills/billPayment";
+const Bill_Payment_URL=`http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}/bills/billPayment`;
+// const Bill_Payment_URL=`http://localhost:8080/bills/billPayment`;
 
 class BillPayService{
     createBillPayment(payment)
