@@ -10,6 +10,10 @@ import com.example.bankApplication.backend.models.UserAccounts;
 import com.example.bankApplication.backend.repositories.TransactionsRepository;
 import com.example.bankApplication.backend.repositories.UserAccountsRepository;
 import com.example.bankApplication.backend.transactions.AccountTransactionsService;
+import com.example.bankApplication.backend.transfers.InterAccountTransfer;
+import java.util.Optional;
+import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +22,7 @@ import java.awt.image.AreaAveragingScaleFilter;
 import java.util.ArrayList;
 import java.time.LocalDate;
 
+@Slf4j
 @CrossOrigin
 @RestController
 @RequestMapping("/transactions")
@@ -31,6 +36,11 @@ public class TransactionsController {
     @Autowired
     private AccountTransactionsService atService;
 
+    @Autowired
+    private InterAccountTransfer interAccountTransfer;
+
+    //2147483647
+    public static final long bankAccountId = Integer.MAX_VALUE;
 
     // get all transactions
     @GetMapping("")
@@ -100,6 +110,29 @@ public class TransactionsController {
 
         Iterable<TransactionsDbModel> currentAccountTransactions = transactionsRepository.findByIsFeesAndIsRefunded(true, false);
         return ResponseEntity.ok(currentAccountTransactions);
+    }
+
+    @PostMapping("/admin/refund/{tid}")
+    public ResponseEntity<Boolean> refund(@PathVariable long tid){
+
+        if (tid > 0) {
+            Optional<TransactionsDbModel> transOpt = transactionsRepository.findById(tid);
+            if (transOpt.isPresent()) {
+
+                TransactionsDbModel ogTx = transOpt.get();
+
+                TransactionsDbModel refundTx = interAccountTransfer.transferBetweenAccount(bankAccountId,
+                    ogTx.accountId, ogTx.amount,
+                    "manual refundTx");
+                log.info("refundTx tx : " + refundTx);
+
+                ogTx.setRefunded(true);
+                TransactionsDbModel savedTx = transactionsRepository.save(ogTx);
+                log.info("refundTx tx saved : " + savedTx);
+                return ResponseEntity.ok(true);
+            }
+        }
+        return ResponseEntity.badRequest().build();
     }
 
 }
