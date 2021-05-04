@@ -1,0 +1,11 @@
+@import "../../../styles/variables.css";
+
+.recurringLine {
+  color: var(--color-grey2);
+  display: flex;
+align-items: center;
+}
+
+.recurringLine svg{
+  margin: 0px 10px;
+}

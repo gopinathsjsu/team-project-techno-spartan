@@ -1,14 +1,12 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import {
-  BrowserRouter as Router,
   Switch,
-  Route,
-  Link,
-  useRouteMatch
+  Route
 } from "react-router-dom";
 
 import { AccountPage } from '../pages/account';
 import { PastTransferPage } from '../pages/PastTransfer';
+import { AdminPage } from '../pages/admin';
 import '../App.css'
 
 export default function AdminApp(props) {
@@ -20,7 +18,7 @@ export default function AdminApp(props) {
             <PastTransferPage/>
           </Route>
           <Route path="/">
-            <AccountPage />
+            <AdminPage />
           </Route>
       </Switch>
   );

@@ -1,80 +1,106 @@
-import React, {useState, useEffect} from 'react';
-import axios from 'axios'
-import {
-  Link
-} from "react-router-dom";
+import React, {useState, useEffect, useReducer} from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import './Dashboard.css';
-import { ReactComponent as Logo } from '../../assets/Logo.svg';
 import { AccountCardComponent } from '../../components/account/account-card';
 import { CreateModalComponent } from '../../components/account/create-modal';
 import { TransactionsListComponent } from '../../components/account/transactions-list';
-const Dashboard = props => {
-  const [user, setUser] = useState(null);
-  const [userInitials, setUserInitials] = useState("");
-  const [accounts, setAccounts] = useState([]);
-  const [transactions, setTransactions] = useState([]);
+import AccountService from '../../services/AccountService';
+import TransactionService from '../../services/TransactionService';
+import {TransactionType } from '../../models/transactionTypes';
+
+const initialState = {user: null, accounts: [], transactions: []}
+
+function reducer(state, action) {
+  const { user, account, trasactions } = state;
+  switch(action.type) {
+    case 'setUser':
+      return { ...state, user: action.payload}
+    case 'setAccounts':
+      return {...state, accounts: action.payload}
+    case 'setTransactions':
+     return {...state, transactions: action.payload}
+    default:
+     return state
+  }
+}
+
+const Dashboard = ({admin, user}) => {
+  const [userData, dispatch] = useReducer(reducer, initialState)
   const [showCreateModal, setShowCreateModal] = useState(false);
 
   useEffect(() => {
-    getUserInfo();
-    setAccounts([{type: "Savings", id: 1, userId:1, balance: 3450.00, dateCreated: Date.now()}, {type: "Savings", id: 2, userId:1, balance: -50.00, dateCreated: Date.now()}, {type: "Checking", id: 3, userId:1, balance: 3450.00, dateCreated: Date.now()}])
-    setTransactions([{description: "Coffee", account: 1356, isCredit: true, amount: 40, date: Date.now(), status: "", id: 23425246},
-  {description: "Amazon", account: 123456, isCredit: true, amount: 400, date: Date.now(), status: "", id: 23446},
-{description: "Work", account: 1356, isCredit: false, amount:1540, date: Date.now(), status: "", id: 23428526}])
+    console.log(TransactionType)
+    if (!admin && user.attributes) {
+      let userName = user.attributes.given_name;
+      let userLastName = user.attributes.family_name;
+      let userId = user.username;
 
-}, [props.user]);
+      dispatch({type: 'setUser', payload: {name: userName, lastName: userLastName, id: userId}});
 
-  const getUserInfo = () => {
-    if (!props.admin && props.user.attributes) {
-      setUser({name: props.user.attributes.given_name, lastName: props.user.attributes.family_name, id: props.user.attributes.propfile});
-      if (props.user.attributes.given_name && props.user.attributes.family_name)
-        setUserInitials(props.user.attributes.given_name[0] +  props.user.attributes.family_name[0]);
+      getUserAccounts(userId);
+
+      getTransactions(userId);
+    }
+}, [user, admin]);
+
+  const getTransactions = (userId) => {
+    TransactionService.getUserTransactions(userId).then(response => {
+      dispatch({type: 'setTransactions', payload: response.data})
+    })
+  }
+
+  const getTransactionsByType = (type) => {
+    let userId = userData.user?.id;
+    if (type == TransactionType.NONE)
+      getTransactions(userId)
+    else {
+      TransactionService.getUserTransactionsByType(userId, type).then(response => {
+        dispatch({type: 'setTransactions', payload: response.data})
+      })
     }
   }
 
-  const createAccount = (option) => {
-    console.log(user)
-    axios.post('http://localhost:8080/accounts/create/' + user.id + '/' + option)
-    .then((response) => {
-      console.log(response);
-      alert(option + " account created, account id is " + response.data.id);
-    }, (error) => {
-      console.log(error);
+  const getUserAccounts = (userId) => {
+    AccountService.getUserAccounts(userId).then(response => {
+        dispatch({type: 'setAccounts', payload: response.data})
     });
+  }
+
+  const createAccount = (option) => {
+    AccountService.createAccount(userData.user.id, option).then(res => {
+      getUserAccounts(userData.user.id)
+    }).catch(err => console.log(err))
     setShowCreateModal(false);
-    //reload accounts after
   }
 
   const closeAccount = (option) => {
-    console.log("close " + option)
-    axios.post('http://localhost:8080/accounts/close/' + option)
-    .then((response) => {
-       console.log(response);
-       alert(option + " account closed");
-    }, (error) => {
-       console.log(error);
-    });
-    //reload accounts after
+    AccountService.closeAccount(userData.user.id, option).then(res => {
+      getUserAccounts(userData.user.id)
+    }).catch(err => console.log(err))
   }
 
   return (
     <>
       <Row className="my-4 mx-0">
-        <Col sm="auto" className="mr-auto"><h4>Hello {user?.name}!</h4></Col>
+        <Col sm="auto" className="mr-auto"><h4>Hello {userData.user?.name}!</h4></Col>
         <Col sm={4}><Button variant="blue" className="w-100" onClick={() => setShowCreateModal(true)}>Create New Account</Button></Col>
       </Row>
       <Row className="my-4 mx-0">
       {
-        accounts?.map(
-        (account) => <Col sm="4" key={account.id}><AccountCardComponent {...account} closeAccount={closeAccount}/></Col>
+        userData.accounts?.map(
+        (account) => <Col sm="4" className="mb-3" key={account.id}><AccountCardComponent {...account} closeAccount={closeAccount}/></Col>
         )
       }
       </Row>
       <Row className="my-4 mx-0">
-        <Col><TransactionsListComponent transactions={transactions}/></Col>
+        <Col>
+          <TransactionsListComponent
+            transactions={userData.transactions}
+            getTransactions={getTransactionsByType}/
+            >
+        </Col>
       </Row>
       <CreateModalComponent show={showCreateModal} onHide={() => setShowCreateModal(false)} createAccount={createAccount}/>
     </>

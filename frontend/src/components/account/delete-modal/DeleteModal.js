@@ -1,8 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import './DeleteModal.css';
 
 const DeleteModal = props => {
@@ -18,7 +16,7 @@ const DeleteModal = props => {
   })
 
   useEffect(() => {
-    setDateTimeString(new Intl.DateTimeFormat('en-US', options).format(new Date(props.account.dateCreated)));
+    //setDateTimeString(new Intl.DateTimeFormat('en-US', options).format(new Date(props.account.dateCreated)));
   }, []);
 
   return (
@@ -32,7 +30,7 @@ const DeleteModal = props => {
         <div className="my-3 accountInfo mx-auto">
           <p>Account info:</p>
           <p>Account Number: {props?.account.id}</p>
-          <p>Date Created: {dateTimeString}</p>
+          {/* <p>Date Created: {dateTimeString}</p> */}
           <p>Current Balance: {formatter.format(props.account.balance)}</p>
         </div>
         <div className="my-3">Your balance, if any, will be sent in check to your billing address.</div>

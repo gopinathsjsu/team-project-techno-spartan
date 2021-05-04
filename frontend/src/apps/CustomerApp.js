@@ -13,7 +13,7 @@ import { TransfersPage } from '../pages/transfers';
 import { PastTransferPage } from '../pages/PastTransfer';
 import '../App.css'
 
-export default function CustomerApp(props) {
+export default function CustomerApp({user}) {
   return (
     <Switch>
     {/* A <Switch> looks through its children <Route>s and
@@ -34,10 +34,13 @@ export default function CustomerApp(props) {
           <BillsPage />
         </Route>
         <Route path="/account/:id">
-          <AccountPage />
+          <AccountPage user={user}/>
+        </Route>
+        <Route path="/dashboard">
+          <DashboardPage user={user}/>
         </Route>
         <Route path="/">
-          <DashboardPage user={props.user}/>
+          <DashboardPage user={user}/>
         </Route>
     </Switch>
   );
