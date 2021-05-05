@@ -75,6 +75,12 @@ const Dashboard = ({admin, user}) => {
     setShowCreateModal(false);
   }
 
+  const closeAccount = (option) => {
+    AccountService.closeAccount(userData.user.id, option).then(res => {
+      getUserAccounts(userData.user.id)
+    }).catch(err => console.log(err))
+  }
+
   return (
     <>
       <Row className="my-4 mx-0">
@@ -84,7 +90,7 @@ const Dashboard = ({admin, user}) => {
       <Row className="my-4 mx-0">
       {
         userData.accounts?.map(
-        (account) => <Col sm="4" className="mb-3" key={account.id}><AccountCardComponent {...account}/></Col>
+        (account) => <Col sm="4" className="mb-3" key={account.id}><AccountCardComponent {...account} closeAccount={closeAccount}/></Col>
         )
       }
       </Row>

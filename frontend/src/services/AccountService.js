@@ -11,6 +11,10 @@ class AccountService{
     return axios.post(Base_URL + '/me/create/' + option, {userId})
   }
 
+  closeAccount(userId, option) {
+      return axios.post(Base_URL + '/me/close/' + option, {userId})
+  }
+
   getAccountById(userId, accountId) {
     return axios.post(Base_URL + '/me/' + accountId, {userId})
   }
