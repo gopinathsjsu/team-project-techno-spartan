@@ -34,8 +34,8 @@ const AccountCard = props => {
     }
   }
 
-  function deleteAccount(userId, accountId) {
-    alert("Account will be deleted")
+  function deleteAccount(accountId) {
+    props.closeAccount(accountId);
     setShowDeleteModal(false);
   }
 
@@ -53,7 +53,7 @@ const AccountCard = props => {
       <Col><h1>{formatter.format(props.balance)}</h1></Col>
       <Col sm="auto" className="ml-auto my-auto"><Button variant="red" onClick={() => closeAccount(props.balance)}><CloseIcon /></Button></Col>
       </Row>
-      <DeleteModalComponent show={showDeleteModal} onHide={() => setShowDeleteModal(false)} deleteAccount={() => deleteAccount(props.userId, props.id)} account={props}/>
+      <DeleteModalComponent show={showDeleteModal} onHide={() => setShowDeleteModal(false)} deleteAccount={() => deleteAccount(props.id)} account={props}/>
       <ErrorModalComponent show={showErrorModal} onHide={() => setShowErrorModal(false)} account={props}/>
     </div>
   );

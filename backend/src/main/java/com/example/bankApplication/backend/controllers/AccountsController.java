@@ -61,11 +61,6 @@ public class AccountsController {
 
     }
 
-    @PostMapping("/me/close/{id}")
-    public ResponseEntity<Boolean> closeAccount(@PathVariable Long id, @RequestBody UserInfoModel userInfo) {
-        return ResponseEntity.ok(true);
-    }
-
     @PostMapping("/me/{id}")
     public ResponseEntity<Accounts> getUserAccountById(@PathVariable Long id, @RequestBody UserInfoModel userInfo)
     {
@@ -117,6 +112,32 @@ public class AccountsController {
             return ResponseEntity.ok(saved);
         }
 
+
+        return ResponseEntity.badRequest().build();
+    }
+
+    @PostMapping("/me/close/{aid}")
+    public ResponseEntity<Boolean> closeAccount(@RequestBody UserInfoModel userInfo, @PathVariable long aid)
+    {
+        log.info("account close req " + userInfo + " " + aid);
+        if (userInfo.userId > 0 && aid > 0 && usersRepository.existsById(userInfo.userId) && accountsRepository.existsById(aid)) {
+
+
+            Accounts account= accountsRepository.findById(aid)
+                .orElseThrow(() -> new ResourceAccessException("Id not found"));
+            log.info(account.toString());
+            if (account.balance >= 0.0D &&
+                (account.type == AccountType.SAVINGS || account.type == AccountType.CHECKING)) {
+                account.setBalance(0.0);
+                account.setType(AccountType.NONE);
+
+                log.info("To Save : " + account);
+                Accounts saved  = accountsRepository.save(account);
+                log.info("Saved : " + saved);
+
+                return ResponseEntity.ok(true);
+            }
+        }
 
         return ResponseEntity.badRequest().build();
     }
