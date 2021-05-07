@@ -26,7 +26,8 @@ const SideNavigation = props => {
           {!props.admin && <Nav.Link href="/dashboard" className="row mx-0"><AccountIcon className="sidebar-icon col-5 px-1"/><h4 className="sidebar-title col-auto">Accounts</h4></Nav.Link>}
           {!props.admin && <Nav.Link href="/transfers" eventKey="transactions"className="row mx-0" ><TransferIcon className="sidebar-icon col-5 px-1"/><h4 className="sidebar-title col-auto">Transfers</h4></Nav.Link>}
           {!props.admin && <Nav.Link href="/bills" eventKey="bills" className="row mx-0"><BillsIcon className="sidebar-icon col-5 px-1"/><h4 className="sidebar-title col-auto">Bill payment</h4></Nav.Link>}
-          {props.admin && <AdminIcon className="col-10"><h4 className="sidebar-title col-auto">Admin</h4></AdminIcon>}<br></br>
+          {/* props.admin && <AdminIcon className="col-10"><h4 className="sidebar-title col-auto">Admin</h4></AdminIcon> */}
+          {props.admin && <div className="col"><h4 className="sidebar-title col-auto w-100 account-header py-2">Admin</h4></div>}
           <Nav.Link eventKey="signout" className="row mx-0" onClick={signOut}><SignOutIcon className="sidebar-icon col-5 px-1"/><h4 className="sidebar-title col-auto">Sign Out</h4></Nav.Link>
         </Nav>
     </div>
