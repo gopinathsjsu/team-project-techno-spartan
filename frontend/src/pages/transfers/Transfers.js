@@ -1,5 +1,5 @@
 import './Transfers.css';
-import React, { Component } from 'react';
+import React from 'react';
 import TransferServices from './../../services/TransferServices';
 import {withRouter} from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
@@ -41,14 +41,14 @@ memo=(event)=>{
   }
 
   onBoxChecked(event){
-  
+
     this.setState({
       recurr: event.target.value
     });
   }
 
   onChangeValue(event){
-  
+
     this.setState({
       selectedOption: event.target.value
     });

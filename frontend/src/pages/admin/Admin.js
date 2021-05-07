@@ -1,7 +1,6 @@
-import React, {useState, useEffect, useReducer, useHistory} from 'react';
+import React, {useState, useEffect} from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Button from 'react-bootstrap/Button';
 import './Admin.css';
 import { TransactionsAdminComponent } from '../../components/account/transactions-admin';
 import TransactionService from '../../services/TransactionService';
@@ -11,8 +10,6 @@ function Admin (props) {
   const [transactions, setTransactions] = useState([]);
   const [showMessageModal, setShowMessageModal] = useState(false);
   const [message, setMessage] = useState('Success');
-  
-
 
     useEffect(() => {
         getFeesTransactions();
@@ -27,11 +24,11 @@ function Admin (props) {
   }
 
   const getRefundInfo = (transId) => {
-    
+
     TransactionService.getRefund(transId).then(res=>{
         setMessage("Refund Successful")
         setShowMessageModal(true)
-        
+
     });
   }
 

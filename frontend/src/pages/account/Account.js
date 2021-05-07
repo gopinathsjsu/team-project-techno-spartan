@@ -1,9 +1,10 @@
-import React, {useEffect, useReducer} from 'react';
+import React, {useEffect, useReducer, useState} from 'react';
+
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import {
-  useParams
+  useParams, useHistory
 } from "react-router-dom";
 import './Account.css';
 import AccountService from '../../services/AccountService';
@@ -12,8 +13,10 @@ import PaymentsService from '../../services/PaymentsService';
 import { TransactionsListComponent } from '../../components/account/transactions-list';
 import { RecurringSingleComponent } from '../../components/account/recurring-single';
 import {TransactionType } from '../../models/transactionTypes';
+import { GeneralErrorModalComponent } from '../../components/account/general-error-modal';
 
-const initialState = {accountInfo: null, transactions: [], recurringTransactions: []}
+
+const initialState = {accountInfo: {id: "-", type: "", balance: 0}, transactions: [], recurringTransactions: []}
 
 function reducer(state, action) {
   const { accountInfo, trasactions, recurringTransactions } = state;
@@ -31,7 +34,11 @@ function reducer(state, action) {
 
 
 const Account = ({user}) => {
-  const [accountData, dispatch] = useReducer(reducer, initialState)
+  const [accountData, dispatch] = useReducer(reducer, initialState);
+  const [showMessageModal, setShowMessageModal] = useState(false);
+  const [message, setMessage] = useState("")
+
+  let history = useHistory();
 
   useEffect(() => {
     getAccountInfo(user.username, id)
@@ -50,29 +57,40 @@ const Account = ({user}) => {
   const getTransactions = (userId, accountId) => {
     TransactionService.getAccountTransactions(userId, accountId).then(response => {
       dispatch({type: 'setTransactions', payload: response.data})
-    })
+    }).catch(e => console.log(e));
+  }
+
+  const goBack = () => {
+    history.push('/dashboard')
   }
 
   const getAccountInfo = (userId, accountId) => {
     AccountService.getAccountById(userId, accountId).then(response => {
         dispatch({type: 'setAccount', payload: response.data})
-    });
+    }).catch((e) => {
+      if (e.response.status === 404) {
+        setShowMessageModal(true)
+        setMessage(e.response.data);
+        setTimeout(function(){ goBack() }, 3000);
+      }
+    }
+    );
   }
 
   const getRecurringTransactions = (userId, accountId) => {
     PaymentsService.getRecurringTransactionsByAccount(userId, accountId).then(response => {
         dispatch({type: 'setRecurringTransactions', payload: response.data})
-    });
+    }).catch(e => console.log(e));
   }
 
   const getTransactionsByType = (accountId, type) => {
     let userId = user.username;
-    if (type == TransactionType.NONE)
+    if (type === TransactionType.NONE)
       getTransactions(userId, accountId)
     else {
       TransactionService.getAccountTransactionsByType(userId, accountId, type).then(response => {
         dispatch({type: 'setTransactions', payload: response.data})
-      })
+      }).catch(e => console.log(e));
     }
   }
 
@@ -104,7 +122,7 @@ const Account = ({user}) => {
           {
             accountData.recurringTransactions.map((elem, index) => <RecurringSingleComponent key={"recurring" + index} {...elem}/>)
           }
-          {accountData.recurringTransactions.length == 0
+          {accountData.recurringTransactions.length === 0
             ? <Row className="mx-0">Nothing is set yet</Row> : null }
       </Col>
     </Row>
@@ -119,6 +137,7 @@ const Account = ({user}) => {
       <Row className="my-4 mx-0">
         <Button variant="red" className="modalBtn ml-auto mr-3" onClick={() => deleteAccount(accountData.accountInfo.userId, accountData.accountInfo.id)}>Close Account</Button>
       </Row>
+      <GeneralErrorModalComponent show={showMessageModal} onHide={() => goBack()}>{message}</GeneralErrorModalComponent>
     </>
   );
 }
