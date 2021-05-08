@@ -66,6 +66,8 @@ public class AccountsController {
     {
         Accounts account= accountsRepository.findByIdAndUserId(id, userInfo.userId)
                 .orElseThrow(() -> new IdNotFound(id, "Account Id Not Found "));
+        if (account.type == AccountType.NONE)
+            throw new IdNotFound(id, "Account Id Not Found ");
         return ResponseEntity.ok(account);
 
     }

@@ -6,7 +6,8 @@ import Button from 'react-bootstrap/Button';
 import { DeleteModalComponent } from '../delete-modal';
 import { ErrorModalComponent } from '../error-modal';
 import { ReactComponent as DotsIcon } from '../../../assets/dotsIcon.svg'
-import { ReactComponent as CloseIcon } from '../../../assets/closeIcon.svg'
+import { ReactComponent as CloseIcon } from '../../../assets/closeIcon.svg';
+import { AccountType } from '../../../models/accountTypes';
 import './AccountCard.css';
 
 const AccountCard = props => {
@@ -40,6 +41,7 @@ const AccountCard = props => {
   }
 
   return (
+    (props.type == AccountType.SAVINGS || props.type == AccountType.CHECKING) &&
     <div className="accountCard pt-3">
       <Row className="mx-0">
         <Col><h4>{props.type} Account</h4></Col>

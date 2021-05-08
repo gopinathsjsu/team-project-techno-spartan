@@ -21,3 +21,11 @@ h4 {
 .sidebar-title {
   font-size: 18px;
 }
+
+.account-header {
+  color: var(--color-gold);
+  border: 3px solid var(--color-gold);
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 24px;
+}

@@ -31,7 +31,6 @@ const Dashboard = ({admin, user}) => {
   const [showCreateModal, setShowCreateModal] = useState(false);
 
   useEffect(() => {
-    console.log(TransactionType)
     if (!admin && user.attributes) {
       let userName = user.attributes.given_name;
       let userLastName = user.attributes.family_name;
@@ -53,7 +52,7 @@ const Dashboard = ({admin, user}) => {
 
   const getTransactionsByType = (type) => {
     let userId = userData.user?.id;
-    if (type == TransactionType.NONE)
+    if (type === TransactionType.NONE)
       getTransactions(userId)
     else {
       TransactionService.getUserTransactionsByType(userId, type).then(response => {

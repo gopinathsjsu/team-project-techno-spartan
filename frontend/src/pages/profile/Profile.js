@@ -1,8 +1,7 @@
-import React, {useState} from 'react';
+import React from 'react';
 import './Profile.css';
 
 const Profile = props => {
-  const [userLogin, setUserLogin] = useState(true);
   return (
     <>
       <h1>Here will be ProfilePage</h1>

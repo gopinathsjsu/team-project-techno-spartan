@@ -47,8 +47,7 @@ memo=(event)=>{
   }
 
   onBoxChecked(event){
-
-      this.setState({
+    this.setState({
       recurring: event.target.value
     });
   }
