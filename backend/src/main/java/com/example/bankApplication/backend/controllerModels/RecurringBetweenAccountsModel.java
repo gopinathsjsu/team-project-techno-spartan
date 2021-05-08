@@ -9,9 +9,7 @@ public class RecurringBetweenAccountsModel {
     public double amount;
     public boolean isCredit;
     public String memo;
-
-    public String startDate;
-    public long durationInDays;
-
+    public String transactionRecurringType;
+    public int transactionRepeatTimes;
     public long accountIdTo;
 }

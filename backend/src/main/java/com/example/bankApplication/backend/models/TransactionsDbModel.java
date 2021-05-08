@@ -27,6 +27,8 @@ public class TransactionsDbModel{
 
     public Date startDate;
     public long durationInDays;
+    public String recurringType;
+    public int recurringRepeatTimes;
 
     //for bill pay
     public Vendor vendor;
