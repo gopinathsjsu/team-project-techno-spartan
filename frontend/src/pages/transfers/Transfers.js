@@ -67,7 +67,7 @@ memo=(event)=>{
       let transfer = {
         accountId: this.state.transferFrom,
         amount: this.state.amount,
-        accountIdTo: this.state.transferTo,
+        receiverAccountId: this.state.transferTo,
         memo: this.state.memo
     };
     // console.log('employee'+ JSON.stringify(transfer));
