@@ -48,19 +48,28 @@ public class TransferController {
     {
         SimpleDateFormat formatter = new SimpleDateFormat("yyy-MM-dd", Locale.ENGLISH);
 
-        Date date = formatter.parse(recurringBetweenAccountsModel.startDate,new ParsePosition(0));
-        long dateinSeconds= Duration.ofDays(recurringBetweenAccountsModel.durationInDays).getSeconds();
+
+        var recurringUid = java.util.UUID.randomUUID().toString();
 
         ThreadPoolTaskScheduler threadPoolTaskScheduler=threadPoolTaskSchedulerConfig.threadPoolTaskScheduler();
+        //demo purposes
+        int transferRecurringDurationInS =
+            recurringBetweenAccountsModel.transactionRecurringType == "ANNUALLY"?
+                30*12*1000 :
+                30*1000;
+
         threadPoolTaskScheduler.scheduleAtFixedRate(
-                new InterAccountTransferRunnableTask(
-                    interAccountTransfer,
-                    recurringBetweenAccountsModel.accountId,
-                    recurringBetweenAccountsModel.accountIdTo,
-                    recurringBetweenAccountsModel.amount,
-                    recurringBetweenAccountsModel.memo),
-                new Date(System.currentTimeMillis() + 30000),
-                30000);
+        new InterAccountTransferRunnableTask(
+            interAccountTransfer,
+            recurringBetweenAccountsModel.accountId,
+            recurringBetweenAccountsModel.accountIdTo,
+            recurringBetweenAccountsModel.amount,
+            recurringBetweenAccountsModel.memo,
+            recurringBetweenAccountsModel.transactionRecurringType,
+            recurringBetweenAccountsModel.transactionRepeatTimes,
+            recurringUid),
+        new Date(System.currentTimeMillis() + 10000),
+            transferRecurringDurationInS);
         return ResponseEntity.ok("");
     }
 

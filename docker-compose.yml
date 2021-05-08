@@ -33,10 +33,11 @@ services:
     expose:
       - "3000"
     ports:
-      - "5000:3000" # Forward the exposed port 3000 on the container to port 5000 on the host machine
+      - "8080:3000" # Forward the exposed port 3000 on the container to port 5000 on the host machine
     environment:
       - REACT_APP_API_DOMAIN=${REACT_APP_API_DOMAIN}
       - REACT_APP_API_PORT=${REACT_APP_API_PORT}
+      - REACT_APP_API_PROTOCOL=${REACT_APP_API_PROTOCOL}
       - REACT_APP_REGION=${REACT_APP_REGION}
       - REACT_APP_USER_POOL_ID=${REACT_APP_USER_POOL_ID}
       - REACT_APP_USER_POOL_WEB_CLIENT_ID=${REACT_APP_USER_POOL_WEB_CLIENT_ID}
