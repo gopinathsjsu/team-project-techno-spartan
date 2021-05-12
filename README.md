@@ -20,6 +20,12 @@ Design and implement supporting APIs for a banking system including a Database o
 
 ### Weekly Scrum Report and XP Core Values - [Link](https://github.com/gopinathsjsu/team-project-techno-spartan/blob/BillPayment/Documentation/ScrumReports/)
 
+### Burndown Charts - 
+* [Sprint 1](https://github.com/gopinathsjsu/team-project-techno-spartan/blob/BillPayment/Documentation/ScrumReports/Burndown-Sprint1.png)
+* [Sprint 2](https://github.com/gopinathsjsu/team-project-techno-spartan/blob/BillPayment/Documentation/ScrumReports/Burndown-Sprint2.png)
+* [Sprint 3](https://github.com/gopinathsjsu/team-project-techno-spartan/blob/BillPayment/Documentation/ScrumReports/Burndown-Sprint3.png)
+* [Sprint 4](https://github.com/gopinathsjsu/team-project-techno-spartan/blob/BillPayment/Documentation/ScrumReports/Burndown-Sprint4.png)
+
 ### UI Wireframes
 
 ![](Documentation/UIWireFrames/User_Dashboard.png)
