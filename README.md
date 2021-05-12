@@ -16,7 +16,7 @@ Online Banking system (that can be accessed through Web/Mobile).
 Design and implement supporting APIs for a banking system including a Database of your choice to persist Customer data.
 
 ### Architecture Diagrams
-TBD
+![](Documentation/UIWireFrames/architecture.jpg)
 
 ### Weekly Scrum Report and XP Core Values - [Link](https://github.com/gopinathsjsu/team-project-techno-spartan/blob/BillPayment/Documentation/ScrumReports/)
 
@@ -37,4 +37,31 @@ TBD
 ![](Documentation/UIWireFrames/Bill_Payment.png)
 
 ![](Documentation/UIWireFrames/Dispute_Transaction.png)
+
 ![](Documentation/UIWireFrames/Admin_Page.png)
+
+###  Authentication
+
+Cognito user pool
+
+![](Documentation/UIWireFrames/cognito.png)
+
+EBS configurations
+
+![](Documentation/UIWireFrames/eb.png)
+
+![](Documentation/UIWireFrames/eb.png)
+
+
+Docker images
+
+![](Documentation/UIWireFrames/elasticbeanstack.png)
+
+Loadbalancers
+
+![](Documentation/UIWireFrames/loadbalancers.png)
+
+EBS EC2 Configuration
+
+
+![](Documentation/UIWireFrames/parameters.png)
