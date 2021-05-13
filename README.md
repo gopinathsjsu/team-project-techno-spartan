@@ -16,7 +16,7 @@ Online Banking system (that can be accessed through Web/Mobile).
 Design and implement supporting APIs for a banking system including a Database of your choice to persist Customer data.
 
 ### Architecture Diagrams
-![](Documentation/ArchitectureDiagram.png)
+![](Documentation/architecture.png)
 
 ### Weekly Scrum Report and XP Core Values -
 * [Week 1](Documentation/ScrumReports/2021-03-14WeeklyScrumReport.pdf)
@@ -24,7 +24,7 @@ Design and implement supporting APIs for a banking system including a Database o
 * [Week 3](Documentation/ScrumReports/2021-04-07WeeklyScrumReport.pdf)
 * [Week 4](Documentation/ScrumReports/2021-04-15WeeklyScrumReport.pdf)
 * [Week 5](Documentation/ScrumReports/2021-04-25WeeklyScrumReport.pdf)
-* [Week 7](Documentation/ScrumReports/2021-05-02WeeklyScrumReportpdf.pdf)
+* [Week 6](Documentation/ScrumReports/2021-05-02WeeklyScrumReportpdf.pdf)
 * [Week 7](Documentation/ScrumReports/2021-05-09WeeklyScrumReport.pdf)
 
 ### Burndown Charts - 
