@@ -4,7 +4,7 @@
 ## Professor: Gopinath Vinodh
 
 ## Team : Techno Spartan
-Student Name      | 
+Student Name      |
 -------------     |
 Anastasia Zimina |
 Parvathi Pai     |
@@ -14,6 +14,8 @@ Sania Gonsalves |
 ### Application Use Case:
 Online Banking system (that can be accessed through Web/Mobile).
 Design and implement supporting APIs for a banking system including a Database of your choice to persist Customer data.
+
+[Presentation](https://drive.google.com/file/d/108a2S7EwK9Hgc-UYrIA2qtiILxSBl3u0/view?usp=sharing)
 
 ### Architecture Diagrams
 ![](Documentation/architecture.png)
@@ -27,7 +29,7 @@ Design and implement supporting APIs for a banking system including a Database o
 * [Week 6](Documentation/ScrumReports/2021-05-02WeeklyScrumReportpdf.pdf)
 * [Week 7](Documentation/ScrumReports/2021-05-09WeeklyScrumReport.pdf)
 
-### Burndown Charts - 
+### Burndown Charts -
 * [Sprint 1](Documentation/ScrumReports/Burndown-Sprint1.png)
 * [Sprint 2](Documentation/ScrumReports/Burndown-Sprint2.png)
 * [Sprint 3](Documentation/ScrumReports/Burndown-Sprint3.png)
@@ -45,11 +47,11 @@ Design and implement supporting APIs for a banking system including a Database o
 
 ![](Documentation/UIWireFrames/Close_Account-Error.png)
 
+![](Documentation/UIWireFrames/Transfer_Page.png)
+
 ![](Documentation/UIWireFrames/Transaction_Page.png)
 
 ![](Documentation/UIWireFrames/Bill_Payment.png)
-
-![](Documentation/UIWireFrames/Dispute_Transaction.png)
 
 ![](Documentation/UIWireFrames/Admin_Page.png)
 
@@ -58,6 +60,10 @@ Design and implement supporting APIs for a banking system including a Database o
 Cognito user pool
 
 ![](Documentation/UIWireFrames/cognito.png)
+
+RDS
+
+![](Documentation/UIWireFrames/RDS.png)
 
 EBS configurations
 
